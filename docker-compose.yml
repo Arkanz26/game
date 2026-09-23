@@ -1,0 +1,53 @@
+# Local/on-prem stack: PostgreSQL 16, MinIO (document storage), migrations, and the app.
+#   docker compose up -d postgres minio        # infrastructure only (for `pnpm dev`)
+#   docker compose --profile app up --build    # full stack
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: silika
+      POSTGRES_PASSWORD: silika
+      POSTGRES_DB: silika
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U silika"]
+      interval: 5s
+      retries: 10
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: silika
+      MINIO_ROOT_PASSWORD: silika-dev-secret
+    ports: ["9000:9000", "9001:9001"]
+    volumes: [miniodata:/data]
+
+  migrate:
+    profiles: [app]
+    build: { context: ., target: builder }
+    command: ["pnpm", "db:migrate"]
+    environment:
+      DATABASE_URL: postgres://silika:silika@postgres:5432/silika
+    depends_on:
+      postgres: { condition: service_healthy }
+
+  app:
+    profiles: [app]
+    build: { context: ., target: runner }
+    ports: ["3000:3000"]
+    environment:
+      DATABASE_URL: postgres://silika:silika@postgres:5432/silika
+      # Behind the LPS TLS-terminating proxy keep this true; set false only for plain-HTTP testing.
+      SESSION_COOKIE_SECURE: "false"
+      S3_ENDPOINT: http://minio:9000
+      S3_BUCKET: silika-documents
+      S3_ACCESS_KEY: silika
+      S3_SECRET_KEY: silika-dev-secret
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+
+volumes:
+  pgdata:
+  miniodata:
