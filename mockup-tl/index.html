@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Database Tim Likuidasi (TL) — Mockup GLIB</title>
+<style>
+:root{--navy:#0f2a4a;--navy2:#173b66;--blue:#1f5fae;--blue2:#e8f0fb;--bg:#f2f5f9;--card:#fff;--line:#dde3ec;--txt:#1b2533;--mut:#64748b;
+--ok:#15803d;--okbg:#dcfce7;--warn:#b45309;--warnbg:#fef3c7;--bad:#b91c1c;--badbg:#fee2e2;--info:#1d4ed8;--infobg:#dbeafe;--gray:#475569;--graybg:#e8ecf2;--ketua:#17407a;--anggota:#4f8fd8}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font:14px/1.45 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--txt);background:var(--bg)}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+#app{display:flex;min-height:100vh}
+#side{width:236px;background:var(--navy);color:#cfd9e8;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;flex:none}
+.brand{display:flex;gap:10px;align-items:center;padding:16px 16px 14px;border-bottom:1px solid #ffffff1f}
+.brand b{color:#fff;display:block;letter-spacing:.3px}.brand small{font-size:11.5px;color:#9fb2cc}
+.logo{width:36px;height:36px;border-radius:8px;background:#fff;color:var(--navy);display:grid;place-items:center;font-weight:800}
+#nav{padding:10px 8px;flex:1;overflow:auto}
+#nav a{display:flex;align-items:center;gap:10px;padding:9px 10px;margin:2px 0;border-radius:8px;color:#cfd9e8;text-decoration:none}
+#nav a:hover{background:#ffffff14}#nav a.on{background:#fff;color:var(--navy);font-weight:600}
+#nav .ic{width:20px;text-align:center}#nav .cnt{margin-left:auto;background:#e11d48;color:#fff;border-radius:10px;padding:0 7px;font-size:11px;font-weight:700}
+#nav a.on .cnt{background:var(--bad)}
+.side-foot{padding:12px 16px;font-size:11.5px;color:#9fb2cc;border-top:1px solid #ffffff1f}
+#content{flex:1;min-width:0;display:flex;flex-direction:column}
+#top{display:flex;align-items:center;gap:12px;background:#fff;border-bottom:1px solid var(--line);padding:10px 22px;position:sticky;top:0;z-index:20}
+#crumb{font-weight:600;font-size:15px;flex:1}
+.top-r{display:flex;gap:10px;align-items:center;font-size:12.5px;color:var(--mut)}
+#burger{display:none}
+.banner{background:#fff7e0;border-bottom:1px solid #f1dfa0;color:#7a5a00;font-size:12.5px;padding:6px 22px}
+#main{padding:20px 22px 60px;max-width:1500px;width:100%}
+h1{font-size:20px;margin:0 0 4px}h2{font-size:16px;margin:0 0 10px}h3{font-size:14px;margin:14px 0 8px}
+.sub{color:var(--mut);margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:16px;box-shadow:0 1px 2px #0f2a4a0d}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g6{grid-template-columns:repeat(3,minmax(0,1fr))}
+.kpi{display:block;background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;color:var(--txt);border-left:4px solid var(--blue)}
+.kpi:hover{text-decoration:none;box-shadow:0 2px 8px #0f2a4a1f}.kpi .v{font-size:28px;font-weight:700;line-height:1.1}.kpi .l{color:var(--mut);font-size:12.5px;margin-top:4px}
+.kpi.warn{border-left-color:#d97706}.kpi.bad{border-left-color:var(--bad)}.kpi.ok{border-left-color:var(--ok)}
+table.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;background:#f6f8fb;color:#475569;font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:8px 10px;border-bottom:1px solid #edf0f5;vertical-align:top}
+.tbl tr:hover td{background:#fafcff}.tbl tr.sup td{color:#94a3b8;text-decoration:line-through}.tbl tr.sup td:last-child{text-decoration:none}
+.tw{overflow-x:auto}
+.badge{display:inline-block;padding:2px 9px;border-radius:12px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.b-ok{background:var(--okbg);color:var(--ok)}.b-warn{background:var(--warnbg);color:var(--warn)}.b-bad{background:var(--badbg);color:var(--bad)}
+.b-info{background:var(--infobg);color:var(--info)}.b-gray{background:var(--graybg);color:var(--gray)}
+.btn{border:1px solid var(--blue);background:var(--blue);color:#fff;border-radius:7px;padding:7px 13px;font:inherit;cursor:pointer;font-weight:600}
+.btn:hover{filter:brightness(1.08)}.btn.ghost{background:#fff;color:var(--blue)}.btn.red{background:var(--bad);border-color:var(--bad)}
+.btn.ok{background:var(--ok);border-color:var(--ok)}.btn.sm{padding:3px 9px;font-size:12px}.btn:disabled{opacity:.45;cursor:not-allowed}
+input,select,textarea{font:inherit;padding:7px 9px;border:1px solid #c5cedb;border-radius:7px;background:#fff;width:100%;color:var(--txt)}
+input:focus,select:focus,textarea:focus{outline:2px solid #9ec2f2;border-color:var(--blue)}
+label.f{display:block;font-size:12px;color:var(--mut);font-weight:600;margin-bottom:3px}
+.fg{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));margin-bottom:10px}
+.filters{display:grid;gap:10px;grid-template-columns:2fr repeat(5,1fr);margin-bottom:12px}
+.tabs{display:flex;gap:2px;border-bottom:2px solid var(--line);margin-bottom:14px;overflow-x:auto}
+.tabs a{padding:9px 14px;color:var(--mut);white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px;font-weight:600}
+.tabs a.on{color:var(--blue);border-bottom-color:var(--blue)}.tabs a:hover{text-decoration:none;color:var(--navy)}
+.pill{display:inline-block;background:var(--blue2);color:var(--blue);padding:1px 8px;border-radius:10px;font-size:12px;margin:1px 3px 1px 0}
+.pill.flag{background:var(--warnbg);color:var(--warn);font-weight:700}
+.muted{color:var(--mut)}.right{text-align:right}.nowrap{white-space:nowrap}.mono{font-variant-numeric:tabular-nums}
+.note{background:#f6f9ff;border:1px solid #cfe0f7;border-left:4px solid var(--blue);padding:9px 12px;border-radius:6px;font-size:13px;margin:10px 0}
+.note.warn{background:#fffaf0;border-color:#f3dba5;border-left-color:#d97706}.note.bad{background:#fff5f5;border-color:#f6caca;border-left-color:var(--bad)}.note.ok{background:#f3fcf6;border-color:#bfe6cc;border-left-color:var(--ok)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.sp{flex:1}
+.ph{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.avatar{width:54px;height:54px;border-radius:50%;background:var(--blue2);color:var(--blue);display:grid;place-items:center;font-weight:800;font-size:18px}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px 18px;margin-top:10px}.kv div small{display:block;color:var(--mut);font-size:11.5px}
+.lock{color:#475569}.hon{font-size:22px;font-weight:800;color:var(--navy)}
+.steps td:first-child{width:34px;color:var(--mut)}.steps .res{background:#f1f6fe;font-weight:700}
+.big{background:var(--navy);color:#fff;border-radius:10px;padding:16px 18px}.big .n{font-size:30px;font-weight:800}.big small{color:#b8c7de}
+.tie{background:#fff7d6}
+.modal{position:fixed;inset:0;background:#0b1a2f8c;display:grid;place-items:start center;padding:40px 14px;z-index:100;overflow:auto}
+.modal.hidden,.tip.hidden{display:none}
+.mbox{background:#fff;border-radius:12px;max-width:760px;width:100%;padding:20px;box-shadow:0 12px 40px #0006}.mbox.wide{max-width:980px}
+.mbox h2{margin-bottom:12px}.mfoot{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+.tip{position:fixed;z-index:200;background:#0f2a4a;color:#fff;padding:8px 10px;border-radius:7px;font-size:12px;max-width:330px;pointer-events:none;box-shadow:0 4px 14px #0005}
+#toast{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:8px;z-index:300}
+.toast{background:#0f2a4a;color:#fff;padding:10px 14px;border-radius:8px;box-shadow:0 4px 14px #0004;max-width:380px}.toast.bad{background:var(--bad)}.toast.ok{background:var(--ok)}
+.diff-add{background:#eaf9ef;border-left:3px solid var(--ok)}.diff-same{color:var(--mut)}
+/* gantt */
+.gantt{min-width:900px;position:relative}
+.glane{display:flex;align-items:stretch;border-bottom:1px solid #edf0f5;min-height:44px}
+.glab{width:210px;flex:none;padding:6px 8px;font-size:12.5px;border-right:1px solid var(--line)}
+.gtrack{position:relative;flex:1;min-height:44px}
+.gbar{position:absolute;top:12px;height:20px;border-radius:5px;opacity:1}
+.gbar.k{background:var(--ketua)}.gbar.a{background:var(--anggota)}.gbar.proj{opacity:.28}
+.gbar.na{background:repeating-linear-gradient(45deg,#9aa5b5 0 5px,#d6dce6 5px 10px);z-index:2;height:20px}
+.gmk{position:absolute;top:3px;width:12px;height:12px;transform:translateX(-6px) rotate(45deg);background:#f59e0b;border:1px solid #fff;z-index:5;cursor:pointer}
+.gmk.end{background:#dc2626}.gmk.na{background:#64748b}.gmk.kp{background:#7c3aed;top:16px}.gmk.ext{background:#059669}
+.gtick{position:absolute;top:0;bottom:0;border-left:1px dashed #e1e6ee}.gtick span{position:absolute;top:2px;left:3px;font-size:10.5px;color:var(--mut);white-space:nowrap}
+.gtoday{position:absolute;top:0;bottom:0;border-left:2px dashed #dc2626;z-index:4}.gend{position:absolute;top:0;bottom:0;border-left:2px solid #059669;z-index:3}
+.gcnt{position:absolute;top:10px;height:22px;border-radius:4px;color:#fff;font-size:12px;text-align:center;line-height:22px;font-weight:700}
+.lg{display:inline-flex;align-items:center;gap:5px;margin-right:14px;font-size:12px;color:var(--mut)}.lg i{display:inline-block;width:14px;height:10px;border-radius:2px}
+@media (max-width:1100px){.filters{grid-template-columns:repeat(3,1fr)}.g6{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){
+ #side{position:fixed;left:-250px;z-index:90;transition:left .2s}#side.open{left:0}#burger{display:inline-block}
+ .g2,.g3{grid-template-columns:1fr}.filters{grid-template-columns:1fr 1fr}#main{padding:14px}
+ #top{padding:8px 12px}.top-r label span{display:none}
+}
+@media (max-width:560px){.g6{grid-template-columns:1fr}.filters{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="app">
+  <aside id="side">
+    <div class="brand"><div class="logo">TL</div><div><b>SILIKA · Basis Data TL</b><small>Group Likuidasi Bank (GLIB)</small></div></div>
+    <nav id="nav"></nav>
+    <div class="side-foot">Mockup untuk presentasi · semua data fiktif<br>Tanggal demo: <b id="demoDate"></b></div>
+  </aside>
+  <div id="content">
+    <header id="top">
+      <button class="btn ghost sm" id="burger" data-act="menu">☰</button>
+      <div id="crumb"></div>
+      <div class="top-r">
+        <label>Pengguna aktif: <select id="userSel" data-bind="meta.user" style="width:auto;display:inline-block"></select></label>
+        <button class="btn ghost sm" data-act="reset">Reset data demo</button>
+      </div>
+    </header>
+    <div class="banner">MOCKUP — bukan sistem produksi. Nama orang, BDL, nomor keputusan, NIK dan angka honorarium (kecuali contoh kelas C dari PADK) adalah <b>data fiktif/dummy</b>. Data tersimpan di localStorage browser.</div>
+    <main id="main"></main>
+  </div>
+</div>
+<div id="modal" class="modal hidden"></div>
+<div id="tip" class="tip hidden"></div>
+<div id="toast"></div>
+<script>
+'use strict';
+/* =====================================================================
+   CORE: util, seed data (FIKTIF), derivasi penugasan, mesin honor, crosscheck
+   Tidak menyentuh DOM -> bisa diuji di Node.
+   ===================================================================== */
+const TODAY = '2026-10-08';           // tanggal demo (tetap agar data deterministik)
+const SEED_VERSION = '1';
+const KELAS = ['A','B','C','D','E','F','G','H','I'];
+const KAT = ['Likuidasi/Kepailitan Perbankan','Likuidasi/Kepailitan Non-Bank','Perbankan','Lain yang Relevan'];
+const KAT_BOBOT = [0.4, 0.3, 0.2, 0.1];
+const BIDANG3 = ['Hukum','Akuntansi','Keuangan'];
+const KODE = ['17(1)a','17(1)b','17(1)c','17(1)d','17(1)e','Selesai Normal'];
+const KODE_LABEL = {
+  '17(1)a':'Ditugaskan di BDL lain / dasar rangkap (label asumsi)',
+  '17(1)b':'Mengundurkan diri (label asumsi)',
+  '17(1)c':'Diberhentikan karena pelanggaran / tidak cakap (label asumsi)',
+  '17(1)d':'Berhalangan tetap selain meninggal (label asumsi)',
+  '17(1)e':'Meninggal dunia (label asumsi)',
+  'Selesai Normal':'Masa tugas / likuidasi selesai'
+};
+const JENIS_EVENT = ['Angkat','Ganti','Berhenti','Nonaktif','Aktif Kembali','Perpanjang'];
+const JENIS_KEP = ['KADK','KE','DE','DGLIB','Putusan'];
+const BULAN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const STAFF = [
+  {nama:'Anindya Pramesti', peran:'Analis GLIB'},
+  {nama:'Raka Mahendra', peran:'Verifikator'},
+  {nama:'Sekar Utami', peran:'Koordinator'}
+];
+
+const D = {
+  ms: s => Date.parse(s + 'T00:00:00Z'),
+  str: ms => new Date(ms).toISOString().slice(0,10),
+  diff: (a,b) => Math.round((D.ms(b) - D.ms(a)) / 864e5),
+  add: (s,n) => D.str(D.ms(s) + n * 864e5),
+  fmt: s => { if (!s) return '—'; const [y,m,d] = s.split('-'); return +d + ' ' + BULAN[+m-1] + ' ' + y; },
+  max: (a,b) => a > b ? a : b,
+  min: (a,b) => a < b ? a : b
+};
+const r4 = x => Math.round(x * 1e4) / 1e4;
+const rp = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+const pct = x => (Math.round(x * 10000) / 100).toLocaleString('id-ID') + '%';
+const num = (x, d = 2) => (+x).toLocaleString('id-ID', {maximumFractionDigits: d});
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ---------------------------------------------------------------- SEED */
+function seedParams(db) {
+  const M = '2024-01-01';
+  const add = (tabel, kunci, nilai, ket) => db.parameter.push({
+    id: 'PR-' + String(db.parameter.length + 1).padStart(3,'0'), tabel, kunci, nilai,
+    keterangan: ket || '', berlaku_mulai: M, berlaku_sampai: null
+  });
+  const HD = {A:[10e6,14e6,18e6],B:[13e6,18.5e6,24e6],C:[16294000,23277000,30260000],D:[19e6,27e6,35e6],E:[22e6,31e6,40e6],F:[25e6,35e6,45e6],G:[28e6,39.5e6,51e6],H:[31e6,44e6,57e6],I:[34e6,48.5e6,63e6]};
+  KELAS.forEach(k => add('HD_KELAS', k, {min:HD[k][0], median:HD[k][1], maks:HD[k][2], dummy:k !== 'C'},
+    k === 'C' ? 'Angka contoh dari PADK (Lampiran)' : 'DUMMY — angka karangan untuk demo'));
+  [[100,null,1.10,'100%'],[80,100,1.07,'80% s.d. <100%'],[50,80,1.04,'50% s.d. <80%'],[20,50,1.01,'20% s.d. <50%'],[0,20,1.00,'0% s.d. <20%']]
+    .forEach(([d,s,f,l]) => add('FP_NPL', l, {dari:d, sampai:s, fp:f}, 'Tabel 4 — FP kompleksitas (% NPL)'));
+  const rng = {A:[2,4],B:[2,4],C:[2,4],D:[5,7],E:[5,7],F:[5,7],G:[8,9],H:[8,9],I:[8,9]};
+  KELAS.forEach(k => add('FP_JUMLAH', k, {min:rng[k][0], maks:rng[k][1], kurang_berlaku:!'ABC'.includes(k), lebih_berlaku:!'GHI'.includes(k), fp_kurang:1.05, fp_lebih:0.95},
+    'Tabel 5 — verifikasi dengan Lampiran PADK'));
+  add('FP_POSISI', 'Anggota', {fp:1.00}, 'Tabel 6');
+  add('FP_POSISI', 'Ketua', {fp:1.10}, 'Tabel 6 — Anggota merangkap Ketua');
+  add('TERPENCIL', 'Daerah terpencil', {per_hari:200000, maks_persen:0.25}, 'Rp200.000 per hari kalender, maks 25% honorarium bulanan');
+  add('RANGKAP', 'Pasal 26 ayat 3', {persen:0.25}, '100% honor BDL baru + 25% honor BDL sebelumnya (interpretasi belum dikonfirmasi)');
+  add('KUALIFIKASI', 'FP kualifikasi', {faktor:0.1, konstanta:0.6}, 'FP = (total nilai × 0,1) + 0,6');
+  add('BOBOT_KOMPETENSI', 'Tabel 3.2', {utama:0.5, pendukung1:0.25, pendukung2:0.25}, '50% utama + 25% + 25% pendukung');
+  add('BOBOT_PENGALAMAN', 'Tabel 3.4', {'Likuidasi/Kepailitan Perbankan':0.4,'Likuidasi/Kepailitan Non-Bank':0.3,'Perbankan':0.2,'Lain yang Relevan':0.1}, '40/30/20/10');
+  add('SKOR_KOMPETENSI', 'Skor 1', {teks:'Pendidikan D3/S1 DAN (sertifikasi profesi 2–5 th ATAU pengalaman bidang tsb 5–10 th)'}, 'Tabel 3.1');
+  add('SKOR_KOMPETENSI', 'Skor 2', {teks:'Pendidikan S2 DAN (sertifikasi 5–10 th ATAU pengalaman >10–15 th)'}, 'Tabel 3.1');
+  add('SKOR_KOMPETENSI', 'Skor 3', {teks:'Pendidikan S2 DAN (sertifikasi >10 th ATAU pengalaman >15 th)'}, 'Tabel 3.1');
+  add('SKOR_PENGALAMAN', '< 2 th', {skor:1}, 'Tabel 3.3 (0 th dianggap skor 0 — asumsi)');
+  add('SKOR_PENGALAMAN', '2 – 5 th', {skor:2}, 'Tabel 3.3');
+  add('SKOR_PENGALAMAN', '> 5 th', {skor:3}, 'Tabel 3.3');
+  add('HARI_RAYA', 'Idul Fitri 1446 H', {tgl:'2025-03-31'}, 'Untuk crosscheck THR (PLPS Ps.18(5))');
+  add('HARI_RAYA', 'Idul Fitri 1447 H', {tgl:'2026-03-20'}, 'Untuk crosscheck THR (PLPS Ps.18(5))');
+  add('HARI_RAYA', 'Natal 2026', {tgl:'2026-12-25'}, 'Untuk crosscheck THR (PLPS Ps.18(5))');
+}
+
+function seedDB() {
+  const db = {version:SEED_VERSION, seq:{}, meta:{user:'Raka Mahendra'}, orang:[], pendidikan:[], sertifikasi:[], pengalaman:[],
+    versi_cv:[], dokumen:[], keputusan:[], event:[], snapshot:[], pembayaran:[], bdl:[], parameter:[]};
+  const nid = (p, w = 3) => { db.seq[p] = (db.seq[p] || 0) + 1; return p + '-' + String(db.seq[p]).padStart(w, '0'); };
+  const ST = {V:'Terverifikasi', K:'Klaim', B:'Bukti diterima', X:'Ditolak'};
+  seedParams(db);
+
+  /* BDL */
+  db.bdl.push(
+    {id:'BDL-01', nama:'PT BPR Contoh Makmur (DL)', kelas_tl:'C', persen_npl:85, jumlah_tl_min:2, jumlah_tl_maks:4, mulai:'2025-03-03', akhir_jangka_waktu_likuidasi:'2027-03-02', status:'Berjalan'},
+    {id:'BDL-02', nama:'PT BPR Contoh Nusantara (DL)', kelas_tl:'B', persen_npl:100, jumlah_tl_min:2, jumlah_tl_maks:4, mulai:'2026-01-05', akhir_jangka_waktu_likuidasi:'2026-12-31', status:'Berjalan'},
+    {id:'BDL-03', nama:'PT BPR Contoh Harapan (DL)', kelas_tl:'A', persen_npl:15, jumlah_tl_min:2, jumlah_tl_maks:4, mulai:'2026-04-01', akhir_jangka_waktu_likuidasi:'2027-03-31', status:'Berjalan'},
+    {id:'BDL-04', nama:'PT BPR Contoh Sejahtera (DL)', kelas_tl:'D', persen_npl:60, jumlah_tl_min:5, jumlah_tl_maks:7, mulai:'2026-03-02', akhir_jangka_waktu_likuidasi:'2026-09-01', status:'Berjalan'}
+  );
+
+  /* ORANG */
+  const ORG = [
+    ['Bambang Hartono Wijaya','Tersedia'],['Heru Setiawan Nugraha','Tersedia'],['Agus Prasetyo Utomo','Tersedia'],
+    ['Dewi Lestari Anggraini','Tersedia'],['Rudi Kurniawan Santoso','Tersedia'],['Maya Kusumawati','Tersedia'],
+    ['Hendra Gunawan Saputra','Tidak Tersedia'],['Ratna Sari Dewanti','Tersedia'],['Yusuf Maulana Hakim','Tersedia'],
+    ['Lina Marlina Susanti','Tersedia'],['Dimas Aditya Pratama','Tersedia'],['Fitri Handayani Permata','Tersedia'],
+    ['Eko Budiarto Salim','Tersedia'],['Nanda Puspita Sari','Tersedia']
+  ];
+  const WIL = ['3201','3171','3273','3578','3374','3275','3171','3201','3578','3273','3374','3201','3171','3275'];
+  ORG.forEach(([nama, pool], i) => {
+    const n = i + 1, p2 = String(n).padStart(2,'0');
+    db.orang.push({id_orang:'TL-' + String(n).padStart(3,'0'), nama, nik_masked: WIL[i] + '••••••••00' + p2,
+      npwp_masked: '09.' + (100 + n) + '.•••.•-•••.000', wni:'WNI', kontak:'tl' + String(n).padStart(3,'0') + '@contoh.invalid · 0812-0000-00' + p2,
+      status_pool:pool, relasi_keluarga:[]});
+  });
+  const O = id => db.orang.find(o => o.id_orang === id);
+  O('TL-014').relasi_keluarga.push({jenis:'TL', ke:'TL-001', hubungan:'Saudara kandung'});
+  O('TL-001').relasi_keluarga.push({jenis:'TL', ke:'TL-014', hubungan:'Saudara kandung'});
+  O('TL-012').relasi_keluarga.push({jenis:'TP', ke:'Budi Anwar (fiktif) — pihak terkait BDL-02', bdl:'BDL-02', hubungan:'Ipar'});
+
+  /* ENTRI CV */
+  const penginput = i => (i % 4 === 3 ? 'Sekar Utami' : 'Anindya Pramesti');
+  const verifier = i => (i % 2 ? 'Raka Mahendra' : 'Sekar Utami');
+  const base = (idOrang, st, seqIdx) => {
+    const inp = penginput(seqIdx);
+    const rs = [{status:'Klaim', oleh:inp, tgl:'2025-02-10'}];
+    if (st === 'B' || st === 'V') rs.push({status:'Bukti diterima', oleh:inp, tgl:'2025-02-20'});
+    if (st === 'V') rs.push({status:'Terverifikasi', oleh:verifier(seqIdx), tgl:'2025-03-01'});
+    if (st === 'X') rs.push({status:'Ditolak', oleh:'Raka Mahendra', tgl:'2025-03-01', alasan:'Dokumen tidak terbaca'});
+    return {id_orang:idOrang, status_verifikasi:ST[st], penginput:inp, id_versi:1, migrasi:st !== 'V', riwayat_status:rs};
+  };
+  let sq = 0;
+  const pd = (o, jenjang, bidang, institusi, tahun, st) => db.pendidikan.push(Object.assign({id:nid('PD'), jenjang, bidang, institusi, tahun_lulus:tahun, sumber: st === 'V' ? 'Ijazah' : 'CV'}, base(o, st, ++sq)));
+  const sr = (o, nama, bidang, terbit, exp, st) => db.sertifikasi.push(Object.assign({id:nid('SR'), nama, bidang, tgl_terbit:terbit, tgl_kedaluwarsa:exp}, base(o, st, ++sq)));
+  const pg = (o, instansi, jabatan, mulai, selesai, kat, bidang, st, refBdl) => {
+    const e = Object.assign({id:nid('PG'), instansi, jabatan, tgl_mulai:mulai, tgl_selesai:selesai, kategori_usulan:kat, kategori_padk:null, bidang,
+      penilai:null, alasan_klasifikasi:null, ref_bdl:refBdl || null}, base(o, st, ++sq));
+    if (st === 'V') { e.kategori_padk = kat; e.penilai = 'Sekar Utami'; e.alasan_klasifikasi = 'Uraian tugas pada surat keterangan sesuai kategori "' + kat + '"; dokumen pendukung diterima.'; e.riwayat_status[e.riwayat_status.length-1].oleh = 'Sekar Utami'; }
+    db.pengalaman.push(e);
+  };
+  const U1 = 'Universitas Contoh Nusantara', U2 = 'Institut Fiktif Bisnis', U3 = 'Universitas Contoh Mandiri';
+  // pendidikan
+  pd('TL-001','S1','Hukum',U1,2003,'V'); pd('TL-001','S2','Hukum',U1,2008,'V');
+  pd('TL-002','S1','Akuntansi',U2,1999,'V'); pd('TL-002','S2','Akuntansi',U2,2005,'V');
+  pd('TL-003','S1','Keuangan',U3,2004,'V'); pd('TL-003','S2','Keuangan',U3,2010,'K');
+  pd('TL-004','S1','Hukum',U1,2010,'V');
+  pd('TL-005','S1','Akuntansi',U2,2002,'V'); pd('TL-005','S2','Hukum',U1,2009,'K');
+  pd('TL-006','S2','Keuangan',U3,2007,'V');
+  pd('TL-007','S1','Hukum',U1,2006,'V');
+  pd('TL-008','S1','Akuntansi',U2,2008,'V'); pd('TL-008','S2','Akuntansi',U2,2014,'B');
+  pd('TL-009','S1','Keuangan',U3,2001,'V'); pd('TL-009','S2','Keuangan',U3,2006,'K');
+  pd('TL-010','S1','Hukum',U1,2011,'K');
+  pd('TL-011','D3','Akuntansi',U2,2004,'V'); pd('TL-011','S1','Hukum',U1,2008,'V'); pd('TL-011','S2','Hukum',U1,2012,'V');
+  pd('TL-012','S1','Akuntansi',U2,2000,'V');
+  pd('TL-013','S1','Keuangan',U3,2006,'V'); pd('TL-013','S2','Akuntansi',U2,2011,'V');
+  pd('TL-014','S1','Keuangan',U3,2012,'V'); pd('TL-014','S2','Keuangan',U3,2020,'K');
+  // sertifikasi
+  sr('TL-001','Sertifikasi Kurator dan Pengurus (fiktif)','Hukum','2012-05-10','2028-05-10','V');
+  sr('TL-002','Sertifikasi Akuntan Profesional (fiktif)','Akuntansi','2008-03-01','2027-03-01','V');
+  sr('TL-003','Sertifikasi Manajemen Risiko (fiktif)','Keuangan','2019-06-15','2026-12-15','V');
+  sr('TL-005','Sertifikasi Akuntan Forensik (fiktif)','Akuntansi','2021-02-20','2026-12-20','K');
+  sr('TL-006','Sertifikasi Analis Keuangan (fiktif)','Keuangan','2015-01-10','2027-01-10','V');
+  sr('TL-007','Sertifikasi Hukum Perbankan (fiktif)','Hukum','2022-09-01','2027-09-01','V');
+  sr('TL-008','Sertifikasi Akuntan Pajak (fiktif)','Akuntansi','2020-11-01','2026-11-01','B');
+  sr('TL-009','Sertifikasi Manajemen Risiko (fiktif)','Keuangan','2005-05-05','2026-11-30','V');
+  sr('TL-010','Sertifikasi Hukum Perbankan (fiktif)','Hukum','2024-03-01','2027-03-01','K');
+  sr('TL-011','Sertifikasi Akuntan Pajak (fiktif)','Akuntansi','2022-04-01','2027-04-01','V');
+  sr('TL-012','Sertifikasi Auditor Internal (fiktif)','Akuntansi','2010-08-01','2028-08-01','V');
+  sr('TL-013','Sertifikasi Analis Keuangan (fiktif)','Keuangan','2023-05-01','2028-05-01','V');
+  sr('TL-014','Sertifikasi Manajemen Risiko (fiktif)','Keuangan','2020-09-01','2027-09-01','V');
+  // pengalaman
+  const LP = 'Likuidasi/Kepailitan Perbankan', LN = 'Likuidasi/Kepailitan Non-Bank', PB = 'Perbankan', LR = 'Lain yang Relevan';
+  pg('TL-001','Kantor Hukum Fiktif & Rekan','Partner','2004-01-05','2012-12-31',PB,'Hukum','V');
+  pg('TL-001','PT Pengelola Aset Fiktif','Kurator','2013-01-01','2019-12-31',LN,'Hukum','V');
+  pg('TL-001','PT BPR Lama Fiktif (DL)','Anggota Tim Likuidasi','2020-01-01','2024-12-31',LP,'Hukum','V');
+  pg('TL-001','PT BPR Contoh Makmur (DL)','Ketua Tim Likuidasi','2025-03-03',null,LP,'Hukum','V','BDL-01');
+  pg('TL-002','PT Bank Contoh Raya','Kepala Akuntansi','1999-06-01','2010-12-31',PB,'Akuntansi','V');
+  pg('TL-002','Kantor Akuntan Publik Fiktif','Auditor','2011-01-01','2017-12-31',LR,'Akuntansi','V');
+  pg('TL-002','PT BPR Lama Fiktif (DL)','Anggota Tim Likuidasi','2018-01-01','2024-12-31',LP,'Akuntansi','K');
+  pg('TL-002','PT BPR Contoh Makmur (DL)','Anggota Tim Likuidasi','2025-03-03','2026-09-02',LP,'Akuntansi','V','BDL-01');
+  pg('TL-003','Bank Fiktif Mandiri Sejahtera','Analis Kredit','2004-07-01','2014-06-30',PB,'Keuangan','V');
+  pg('TL-003','PT Penjaminan Fiktif','Manajer','2014-07-01','2022-12-31',LR,'Keuangan','K');
+  pg('TL-003','PT BPR Contoh Makmur (DL)','Anggota Tim Likuidasi','2025-03-03','2026-01-11',LP,'Keuangan','V','BDL-01');
+  pg('TL-004','Firma Hukum Fiktif Kartika','Associate','2011-02-01','2018-12-31',LR,'Hukum','K');
+  pg('TL-004','PT Pengelola Aset Fiktif','Staf Hukum Kepailitan','2019-01-01','2025-12-31',LN,'Hukum','B');
+  pg('TL-004','PT BPR Contoh Makmur (DL)','Anggota Tim Likuidasi','2026-01-12',null,LP,'Hukum','K','BDL-01');
+  pg('TL-005','PT Bank Contoh Raya','Akuntan Senior','2003-01-01','2012-12-31',PB,'Akuntansi','V');
+  pg('TL-005','Kantor Kurator Fiktif','Asisten Kurator','2013-01-01','2024-12-31',LN,'Akuntansi','V');
+  pg('TL-005','PT BPR Contoh Makmur (DL)','Anggota Tim Likuidasi','2025-06-01',null,LP,'Akuntansi','K','BDL-01');
+  pg('TL-006','Bank Fiktif Mandiri Sejahtera','Kepala Divisi Keuangan','2008-01-01','2019-12-31',PB,'Keuangan','V');
+  pg('TL-006','PT BPR Lama Fiktif (DL)','Ketua Tim Likuidasi','2020-01-01','2025-12-31',LP,'Keuangan','V');
+  pg('TL-006','PT BPR Contoh Nusantara (DL)','Ketua Tim Likuidasi','2026-01-05',null,LP,'Keuangan','K','BDL-02');
+  pg('TL-007','Firma Hukum Fiktif Kartika','Partner','2007-01-01','2020-12-31',LR,'Hukum','V');
+  pg('TL-007','PT BPR Contoh Sentosa (DL)','Anggota Tim Likuidasi','2021-01-01','2025-12-31',LP,'Hukum','K');
+  pg('TL-008','Bank Fiktif Mandiri Sejahtera','Akuntan','2009-01-01','2020-12-31',PB,'Akuntansi','V');
+  pg('TL-008','PT Pengelola Aset Fiktif','Pengurus','2021-01-01','2026-06-30',LN,'Akuntansi','K');
+  pg('TL-009','PT Bank Contoh Raya','Manajer Risiko Kredit','2001-06-01','2012-12-31',PB,'Keuangan','V');
+  pg('TL-009','Kantor Kurator Fiktif','Kurator','2018-01-01','2020-06-30',LN,'Keuangan','K');
+  pg('TL-009','PT Konsultan Aset Fiktif','Konsultan','2019-09-01','2022-12-31',LR,'Keuangan','K');
+  pg('TL-009','PT BPR Contoh Harapan (DL)','Ketua Tim Likuidasi','2026-04-01',null,LP,'Keuangan','K','BDL-03');
+  pg('TL-010','Firma Hukum Fiktif Kartika','Associate','2012-01-01','2020-12-31',LR,'Hukum','K');
+  pg('TL-010','PT BPR Lama Fiktif (DL)','Staf Likuidasi','2021-01-01','2026-03-31',LP,'Hukum','V');
+  pg('TL-011','Divisi Akuntansi PT Contoh Logistik','Akuntan','2002-01-01','2008-12-31',LR,'Akuntansi','V');
+  pg('TL-011','PT Bank Contoh Raya','Legal Officer','2009-01-01','2015-12-31',PB,'Hukum','V');
+  pg('TL-011','PT BPR Lama Fiktif (DL)','Anggota Tim Likuidasi','2016-01-01','2022-12-31',LP,'Hukum','V');
+  pg('TL-011','Lembaga Kepailitan Fiktif','Asisten Kurator','2023-01-01','2025-12-31',LN,'Hukum','K');
+  pg('TL-012','PT Bank Contoh Raya','Kepala Audit','2000-07-01','2014-12-31',PB,'Akuntansi','V');
+  pg('TL-012','PT BPR Lama Fiktif (DL)','Ketua Tim Likuidasi','2015-01-01','2021-12-31',LP,'Akuntansi','V');
+  pg('TL-012','Kantor Kurator Fiktif','Kurator','2022-01-01','2026-02-28',LN,'Hukum','K');
+  pg('TL-012','PT BPR Contoh Sejahtera (DL)','Ketua Tim Likuidasi','2026-03-02',null,LP,'Akuntansi','K','BDL-04');
+  pg('TL-013','PT Akuntan Fiktif Utama','Staf Akuntansi','2005-01-01','2005-12-31',LR,'Akuntansi','V');
+  pg('TL-013','Bank Fiktif Mandiri Sejahtera','Akuntan Cabang','2006-01-01','2007-06-30',PB,'Akuntansi','V');
+  pg('TL-013','Kantor Kurator Fiktif Sentral','Asisten Kurator','2007-07-01','2010-12-31',LN,'Akuntansi','V');
+  pg('TL-013','PT BPR Lama Fiktif (DL)','Anggota Tim Likuidasi','2011-01-01','2018-12-31',LP,'Akuntansi','V');
+  pg('TL-014','Bank Fiktif Mandiri Sejahtera','Analis Kredit','2012-08-01','2020-07-31',PB,'Keuangan','V');
+  pg('TL-014','Kantor Kurator Fiktif','Asisten Kurator','2021-01-01','2021-12-31',LN,'Keuangan','V');
+
+  // versi CV: v2 untuk beberapa orang (entri berstatus Klaim/Bukti diterima dianggap datang di CV pembaruan)
+  const v2 = ['TL-004','TL-005','TL-011','TL-014'];
+  [db.pendidikan, db.sertifikasi, db.pengalaman].forEach(arr => arr.forEach(e => {
+    if (v2.includes(e.id_orang) && (e.status_verifikasi === 'Klaim' || e.status_verifikasi === 'Bukti diterima')) { e.id_versi = 2; e.migrasi = false; e.riwayat_status[0].tgl = '2026-08-18'; }
+  }));
+  db.orang.forEach(o => {
+    db.versi_cv.push({id:'CV-' + o.id_orang.slice(3) + '-1', id_orang:o.id_orang, no:1, tgl_diterima:'2025-02-10', catatan_perubahan:'Migrasi CV awal ke database TL (impor dari arsip CV)', file:'CV_' + o.id_orang + '_v1.pdf'});
+    if (v2.includes(o.id_orang)) db.versi_cv.push({id:'CV-' + o.id_orang.slice(3) + '-2', id_orang:o.id_orang, no:2, tgl_diterima:'2026-08-18', catatan_perubahan:'Pembaruan CV: tambahan pendidikan/pengalaman terbaru', file:'CV_' + o.id_orang + '_v2.pdf'});
+  });
+  // dokumen
+  db.versi_cv.forEach(v => db.dokumen.push({id:nid('DK'), id_orang:v.id_orang, jenis:'CV', nama_file:v.file, tgl_unggah:v.tgl_diterima, ref:v.id}));
+  db.pendidikan.filter(e => e.status_verifikasi !== 'Klaim').forEach(e => db.dokumen.push({id:nid('DK'), id_orang:e.id_orang, jenis:'Ijazah', nama_file:'Ijazah_' + e.id_orang + '_' + e.jenjang + '.pdf', tgl_unggah:'2025-02-20', ref:e.id}));
+  db.sertifikasi.filter(e => e.status_verifikasi !== 'Klaim').forEach(e => db.dokumen.push({id:nid('DK'), id_orang:e.id_orang, jenis:'Sertifikat', nama_file:'Sertifikat_' + e.id + '.pdf', tgl_unggah:'2025-02-20', ref:e.id}));
+  db.pengalaman.filter(e => e.ref_bdl && e.status_verifikasi === 'Terverifikasi').forEach(e => db.dokumen.push({id:nid('DK'), id_orang:e.id_orang, jenis:'SK Penugasan', nama_file:'SK_' + e.ref_bdl + '_' + e.id_orang + '.pdf', tgl_unggah:e.tgl_mulai, ref:e.id}));
+
+  /* KEPUTUSAN & EVENT */
+  const KP = (id, nomor, tanggal, jenis, bdl, ttd, perihal, mengubah) => db.keputusan.push({id, nomor, tanggal, jenis, bdl, penandatangan:ttd, perihal, mengubah_keputusan_id:mengubah || null});
+  const EV = (kp, orang, bdl, jenis, peran, kode, kej, tmt, ganti, extra) => db.event.push(Object.assign({id:nid('EV'), id_keputusan:kp, id_orang:orang, bdl, jenis, peran, kode_alasan:kode, tgl_kejadian:kej, tmt, menggantikan_id_orang:ganti || null, akhir_masa_tugas:null, tgl_akhir_baru:null}, extra || {}));
+  const T1 = 'Ketua ADK (fiktif)', T2 = 'Kepala Eksekutif (fiktif)', T3 = 'Dewan Eksekutif (fiktif)', T4 = 'Ketua DGLIB (fiktif)';
+  KP('KP-01','KADK-014/FIKTIF/III/2025','2025-03-03','KADK','BDL-01',T1,'Pengangkatan Tim Likuidasi PT BPR Contoh Makmur (DL)');
+  KP('KP-02','KE-021/FIKTIF/I/2026','2026-01-12','KE','BDL-01',T2,'Pemberhentian TL karena ditugaskan di BDL lain dan penggantiannya');
+  KP('KP-03','DE-007/FIKTIF/VII/2025','2025-07-28','DE','BDL-01',T3,'Pengangkatan anggota TL tambahan BDL-01');
+  KP('KP-04','KADK-031/FIKTIF/VIII/2025','2025-08-11','KADK','BDL-01',T1,'Perubahan atas DE-007/FIKTIF/VII/2025 (koreksi TMT pengangkatan)','KP-03');
+  KP('KP-05','KADK-009/FIKTIF/I/2026','2026-01-05','KADK','BDL-02',T1,'Pengangkatan Tim Likuidasi PT BPR Contoh Nusantara (DL)');
+  KP('KP-06','KE-088/FIKTIF/VI/2026','2026-06-15','KE','BDL-02',T2,'Pemberhentian TL karena mengundurkan diri');
+  KP('KP-07','KADK-052/FIKTIF/VI/2026','2026-06-28','KADK','BDL-02',T1,'Penggantian TL yang mengundurkan diri');
+  KP('KP-08','KADK-020/FIKTIF/III/2026','2026-03-02','KADK','BDL-04',T1,'Pengangkatan Tim Likuidasi PT BPR Contoh Sejahtera (DL)');
+  KP('KP-09','DGLIB-004/FIKTIF/VIII/2026','2026-08-20','DGLIB','BDL-04',T4,'Perpanjangan jangka waktu likuidasi BDL-04');
+  KP('KP-10','KADK-027/FIKTIF/IV/2026','2026-04-01','KADK','BDL-03',T1,'Pengangkatan Tim Likuidasi PT BPR Contoh Harapan (DL)');
+  KP('KP-11','KE-060/FIKTIF/V/2026','2026-05-04','KE','BDL-01',T2,'Penonaktifan sementara TL');
+  KP('KP-12','KE-066/FIKTIF/VI/2026','2026-06-02','KE','BDL-01',T2,'Pengaktifan kembali TL');
+  KP('KP-13','KE-103/FIKTIF/IX/2026','2026-09-10','KE','BDL-01',T2,'Pemberhentian TL karena meninggal dunia');
+
+  const A1 = {akhir_masa_tugas:'2027-03-02'};
+  EV('KP-01','TL-001','BDL-01','Angkat','Ketua','','2025-03-03','2025-03-03',null,A1);
+  EV('KP-01','TL-002','BDL-01','Angkat','Anggota','','2025-03-03','2025-03-03',null,A1);
+  EV('KP-01','TL-003','BDL-01','Angkat','Anggota','','2025-03-03','2025-03-03',null,A1);
+  EV('KP-02','TL-003','BDL-01','Berhenti','Anggota','17(1)a','2026-01-12','2026-01-12');
+  EV('KP-02','TL-004','BDL-01','Ganti','Anggota','','2026-01-12','2026-01-12','TL-003',A1);
+  EV('KP-03','TL-005','BDL-01','Angkat','Anggota','','2025-07-28','2025-08-01',null,A1);
+  EV('KP-04','TL-005','BDL-01','Angkat','Anggota','','2025-07-28','2025-08-11',null,A1);
+  const A2 = {akhir_masa_tugas:'2026-12-31'};
+  EV('KP-05','TL-006','BDL-02','Angkat','Ketua','','2026-01-05','2026-01-05',null,A2);
+  EV('KP-05','TL-007','BDL-02','Angkat','Anggota','','2026-01-05','2026-01-05',null,A2);
+  EV('KP-06','TL-007','BDL-02','Berhenti','Anggota','17(1)b','2026-06-15','2026-06-15');
+  EV('KP-07','TL-008','BDL-02','Ganti','Anggota','','2026-06-28','2026-07-01','TL-007',A2);
+  const A4 = {akhir_masa_tugas:'2026-09-01'};
+  EV('KP-08','TL-012','BDL-04','Angkat','Ketua','','2026-03-02','2026-03-02',null,A4);
+  EV('KP-08','TL-005','BDL-04','Angkat','Anggota','17(1)a','2026-03-02','2026-03-02',null,A4);
+  EV('KP-08','TL-003','BDL-04','Angkat','Anggota','','2026-03-02','2026-03-02',null,A4);
+  EV('KP-09',null,'BDL-04','Perpanjang','','','2026-08-20','2026-09-02',null,{tgl_akhir_baru:'2027-03-01'});
+  const A3 = {akhir_masa_tugas:'2027-03-31'};
+  EV('KP-10','TL-009','BDL-03','Angkat','Ketua','','2026-04-01','2026-04-01',null,A3);
+  EV('KP-10','TL-010','BDL-03','Angkat','Anggota','','2026-04-01','2026-04-01',null,A3);
+  EV('KP-11','TL-005','BDL-01','Nonaktif','Anggota','','2026-04-28','2026-05-01');
+  EV('KP-12','TL-005','BDL-01','Aktif Kembali','Anggota','','2026-06-01','2026-06-01');
+  EV('KP-13','TL-002','BDL-01','Berhenti','Anggota','17(1)e','2026-09-02','2026-09-10');
+
+  /* SNAPSHOT HONOR (dikunci saat keputusan terbit) */
+  const sup = supersededSet(db);
+  db.event.filter(e => !sup.has(e.id) && (e.jenis === 'Angkat' || e.jenis === 'Ganti')).sort((a, b) => a.tmt < b.tmt ? -1 : a.tmt > b.tmt ? 1 : 0).forEach(e => {
+    const opts = {};
+    if (e.id_orang === 'TL-008') { opts.hdOverride = 19200000; opts.sumberOverride = 'Median kelas'; }   // salah sengaja -> crosscheck #4
+    if (e.id_orang === 'TL-005' && e.bdl === 'BDL-04') opts.rangkap25 = false;                          // lupa komponen 25% -> crosscheck #5
+    db.snapshot.push(buatSnapshot(db, e, opts));
+  });
+
+  /* PEMBAYARAN (untuk crosscheck #7-#9) */
+  const hs = (orang, bdl) => { const s = db.snapshot.filter(x => { const e = db.event.find(y => y.id === x.id_event); return e.id_orang === orang && e.bdl === bdl; }); return s.length ? s[s.length-1].honor_final : 0; };
+  const pay = (orang, bdl, periode, jenis, jumlah, cat) => db.pembayaran.push({id:nid('PB'), id_orang:orang, bdl, periode, jenis, jumlah, catatan:cat || ''});
+  pay('TL-001','BDL-01','2026-08','Honor',hs('TL-001','BDL-01'));
+  pay('TL-004','BDL-01','2026-08','Honor',hs('TL-004','BDL-01'));
+  pay('TL-005','BDL-01','2026-05','Honor',hs('TL-005','BDL-01'),'Dibayar walau status Nonaktif (demo anomali #7)');
+  pay('TL-003','BDL-01','2026-03','THR',hs('TL-003','BDL-01'),'THR Idul Fitri 1447 H (demo anomali #8)');
+  pay('TL-006','BDL-02','2026-08','Honor',hs('TL-006','BDL-02'));
+  pay('TL-008','BDL-02','2026-08','Honor',hs('TL-008','BDL-02'));
+  pay('TL-007','BDL-02','2026-09','Insentif',5000000,'Insentif dibayar padahal berhenti 17(1)b (demo anomali #9)');
+  pay('TL-012','BDL-04','2026-08','Honor',hs('TL-012','BDL-04'));
+  return db;
+}
+
+/* ------------------------------------------------ PARAMETER LOOKUP */
+function paramRows(db, tabel, date) { return db.parameter.filter(p => p.tabel === tabel && p.berlaku_mulai <= date && (!p.berlaku_sampai || date <= p.berlaku_sampai)); }
+function paramVal(db, tabel, kunci, date) { const r = paramRows(db, tabel, date).find(p => p.kunci === kunci); return r ? r.nilai : null; }
+
+/* ------------------------------------------------ EVENT -> PENUGASAN */
+function supersededSet(db) {
+  const s = new Set();
+  db.keputusan.forEach(k => {
+    if (!k.mengubah_keputusan_id) return;
+    const baru = db.event.filter(e => e.id_keputusan === k.id);
+    const lama = db.event.filter(e => e.id_keputusan === k.mengubah_keputusan_id);
+    baru.forEach(e => lama.forEach(o => { if (o.id_orang === e.id_orang && o.bdl === e.bdl && o.jenis === e.jenis) s.add(o.id); }));
+  });
+  return s;
+}
+function activeEvents(db) { const s = supersededSet(db); return db.event.filter(e => !s.has(e.id)); }
+const ORDER = {'Berhenti':0, 'Nonaktif':1, 'Aktif Kembali':2, 'Angkat':3, 'Ganti':3, 'Perpanjang':4};
+function deriveAssignments(db) {
+  const evs = activeEvents(db).slice().sort((a, b) => a.tmt < b.tmt ? -1 : a.tmt > b.tmt ? 1 : (ORDER[a.jenis] - ORDER[b.jenis]));
+  const out = [], open = {}, cnt = {};
+  const close = (a, tmt, kode, evId) => { a.tmt_selesai = tmt; a.kode_selesai = kode; a.event_selesai = evId; };
+  evs.forEach(e => {
+    if (!e.id_orang) return;
+    const key = e.id_orang + '|' + e.bdl;
+    if (e.jenis === 'Angkat' || e.jenis === 'Ganti') {
+      if (open[key]) close(open[key], e.tmt, 'Selesai Normal', e.id);
+      cnt[key] = (cnt[key] || 0) + 1;
+      const a = {id:e.id_orang + '@' + e.bdl + '#' + cnt[key], id_orang:e.id_orang, bdl:e.bdl, peran:e.peran, tmt_mulai:e.tmt, tmt_selesai:null,
+        nonaktif:[], event_mulai:e.id, event_selesai:null, kode_selesai:null, menggantikan:e.menggantikan_id_orang || null, kode_mulai:e.kode_alasan || ''};
+      open[key] = a; out.push(a);
+    } else if (e.jenis === 'Berhenti') {
+      if (open[key]) { close(open[key], e.tmt, e.kode_alasan, e.id); delete open[key]; }
+    } else if (e.jenis === 'Nonaktif') {
+      if (open[key]) open[key].nonaktif.push({from:e.tmt, to:null, event:e.id});
+    } else if (e.jenis === 'Aktif Kembali') {
+      const a = open[key]; if (a) { const n = a.nonaktif.filter(x => !x.to).pop(); if (n) { n.to = e.tmt; n.event_to = e.id; } }
+    }
+  });
+  out.forEach(a => {
+    if (a.tmt_mulai > TODAY) a.status = 'Akan datang';
+    else if (a.tmt_selesai && a.tmt_selesai <= TODAY) a.status = 'Selesai';
+    else if (a.nonaktif.some(n => n.from <= TODAY && (!n.to || TODAY < n.to))) a.status = 'Nonaktif';
+    else a.status = 'Aktif';
+  });
+  return out;
+}
+function isAssignedAt(a, d) { return a.tmt_mulai <= d && (!a.tmt_selesai || d < a.tmt_selesai); }
+function isActiveAt(a, d) { return isAssignedAt(a, d) && !a.nonaktif.some(n => n.from <= d && (!n.to || d < n.to)); }
+function bdlEnd(db, bdlId) {
+  const b = db.bdl.find(x => x.id === bdlId);
+  let end = b.akhir_jangka_waktu_likuidasi;
+  activeEvents(db).filter(e => e.bdl === bdlId && e.jenis === 'Perpanjang' && e.tgl_akhir_baru).forEach(e => { if (e.tgl_akhir_baru > end) end = e.tgl_akhir_baru; });
+  return end;
+}
+function snapByEvent(db, evId) { return db.snapshot.find(s => s.id_event === evId) || null; }
+function statusPool(db, A, o) {
+  if (A.some(a => a.id_orang === o.id_orang && (a.status === 'Aktif' || a.status === 'Nonaktif'))) return 'Bertugas';
+  const ber = activeEvents(db).filter(e => e.id_orang === o.id_orang && e.jenis === 'Berhenti' && e.kode_alasan === '17(1)e');
+  if (ber.length) return 'Meninggal Dunia';
+  return o.status_pool;
+}
+
+/* ------------------------------------------------ MESIN HONOR */
+function mergeRanges(rs) {
+  rs = rs.filter(r => r.s <= r.e).sort((a, b) => a.s < b.s ? -1 : a.s > b.s ? 1 : 0);
+  const out = [];
+  for (const r of rs) { const l = out[out.length - 1]; if (l && r.s <= D.add(l.e, 1)) { if (r.e > l.e) l.e = r.e; } else out.push({s:r.s, e:r.e}); }
+  return out;
+}
+const rangesYears = rs => mergeRanges(rs).reduce((t, r) => t + (D.diff(r.s, r.e) + 1), 0) / 365.25;
+const expRanges = (list, asOf) => list.map(p => ({s:p.tgl_mulai, e:(p.tgl_selesai && p.tgl_selesai < asOf) ? p.tgl_selesai : asOf})).filter(r => r.s <= r.e);
+const certLevel = y => y > 10 ? 3 : y > 5 ? 2 : y >= 2 ? 1 : 0;
+const expLevel = y => y > 15 ? 3 : y > 10 ? 2 : y >= 5 ? 1 : 0;
+const JENJANG_RANK = {D3:1, S1:2, S2:3, S3:4};
+const eduCap = j => (j === 'S2' || j === 'S3') ? 3 : (j === 'S1' || j === 'D3') ? 1 : 0;
+const VER = 'Terverifikasi';
+
+function hitungKompetensi(db, id, asOf, utamaOverride) {
+  const rows = BIDANG3.map(b => {
+    const edus = db.pendidikan.filter(p => p.id_orang === id && p.bidang === b && p.status_verifikasi === VER && p.tahun_lulus <= +asOf.slice(0,4));
+    const jenjang = edus.map(p => p.jenjang).sort((x, y) => JENJANG_RANK[y] - JENJANG_RANK[x])[0] || null;
+    const certs = db.sertifikasi.filter(s => s.id_orang === id && s.bidang === b && s.status_verifikasi === VER && s.tgl_terbit <= asOf && (!s.tgl_kedaluwarsa || s.tgl_kedaluwarsa >= asOf));
+    const certYears = certs.length ? Math.max(...certs.map(s => D.diff(s.tgl_terbit, asOf) / 365.25)) : 0;
+    const expYears = rangesYears(expRanges(db.pengalaman.filter(p => p.id_orang === id && p.bidang === b && p.status_verifikasi === VER), asOf));
+    const cL = certLevel(certYears), eL = expLevel(expYears), cap = jenjang ? eduCap(jenjang) : 0;
+    return {bidang:b, jenjang, certYears, certLevel:cL, expYears, expLevel:eL, cap, skor:Math.min(Math.max(cL, eL), cap)};
+  });
+  const sorted = rows.slice().sort((a, b) => b.skor - a.skor);
+  if (utamaOverride && utamaOverride !== 'auto') { const i = sorted.findIndex(r => r.bidang === utamaOverride); if (i > 0) sorted.unshift(sorted.splice(i, 1)[0]); }
+  const [u, p1, p2] = sorted;
+  return {rows, utama:u, p1, p2, nilai:r4(0.5 * u.skor + 0.25 * p1.skor + 0.25 * p2.skor)};
+}
+function hitungPengalaman(db, id, asOf) {
+  const rows = KAT.map((k, i) => {
+    const years = rangesYears(expRanges(db.pengalaman.filter(p => p.id_orang === id && p.status_verifikasi === VER && p.kategori_padk === k), asOf));
+    const skor = years <= 0 ? 0 : years < 2 ? 1 : years <= 5 ? 2 : 3;
+    return {kategori:k, years, skor, bobot:KAT_BOBOT[i], band: years <= 0 ? 'tidak ada' : years < 2 ? '< 2 th' : years <= 5 ? '2–5 th' : '> 5 th', nilai:r4(KAT_BOBOT[i] * skor)};
+  });
+  return {rows, nilai:r4(rows.reduce((t, r) => t + r.bobot * r.skor, 0))};
+}
+function fpNpl(db, npl, date) {
+  const r = paramRows(db, 'FP_NPL', date).find(p => npl >= p.nilai.dari && (p.nilai.sampai == null || npl < p.nilai.sampai));
+  return r ? {fp:r.nilai.fp, label:r.kunci} : {fp:1, label:'—'};
+}
+function fpJumlah(db, kelas, n, date) {
+  const r = paramVal(db, 'FP_JUMLAH', kelas, date);
+  if (n < r.min) return r.kurang_berlaku ? {fp:r.fp_kurang, ket:`< minimum kelas ${kelas} (${r.min}) → ${pct(r.fp_kurang)}`, min:r.min, maks:r.maks}
+    : {fp:1, ket:`< minimum ${r.min}, tetapi faktor 105% tidak berlaku untuk kelas A/B/C → 100%`, min:r.min, maks:r.maks};
+  if (n > r.maks) return r.lebih_berlaku ? {fp:r.fp_lebih, ket:`> maksimum kelas ${kelas} (${r.maks}) → ${pct(r.fp_lebih)}`, min:r.min, maks:r.maks}
+    : {fp:1, ket:`> maksimum ${r.maks}, tetapi faktor 95% tidak berlaku untuk kelas G/H/I → 100%`, min:r.min, maks:r.maks};
+  return {fp:1, ket:`dalam rentang kelas ${kelas} (${r.min}–${r.maks}) → 100%`, min:r.min, maks:r.maks};
+}
+function snapOfAssignment(db, a) { return snapByEvent(db, a.event_mulai); }
+function hdPengganti(db, replacedId, bdlId) {
+  const evs = activeEvents(db).filter(e => e.id_orang === replacedId && e.bdl === bdlId && (e.jenis === 'Angkat' || e.jenis === 'Ganti')).sort((a, b) => a.tmt < b.tmt ? -1 : 1);
+  for (let i = evs.length - 1; i >= 0; i--) { const s = snapByEvent(db, evs[i].id); if (s) return {hd:s.hd_acuan, snap:s, event:evs[i]}; }
+  return null;
+}
+function hitungHonor(db, inp) {
+  const bdl = db.bdl.find(b => b.id === inp.bdl), asOf = inp.asOf || TODAY, kelas = bdl.kelas_tl;
+  const komp = hitungKompetensi(db, inp.id_orang, asOf, inp.bidangUtama);
+  const peng = hitungPengalaman(db, inp.id_orang, asOf);
+  let total = r4(komp.nilai + peng.nilai), override = false;
+  if (inp.totalOverride !== '' && inp.totalOverride != null && !isNaN(+inp.totalOverride)) { total = +inp.totalOverride; override = true; }
+  const kq = paramVal(db, 'KUALIFIKASI', 'FP kualifikasi', asOf);
+  const fpQ = r4(total * kq.faktor + kq.konstanta);
+  const npl = inp.npl != null && inp.npl !== '' ? +inp.npl : bdl.persen_npl;
+  const fN = fpNpl(db, npl, asOf);
+  const jumlah = inp.jumlah != null && inp.jumlah !== '' ? +inp.jumlah : 2;
+  const fJ = fpJumlah(db, kelas, jumlah, asOf);
+  const peran = inp.peran || 'Anggota';
+  const fpP = paramVal(db, 'FP_POSISI', peran, asOf).fp;
+  let hd, sumber = 'Median kelas', hdRef = null;
+  const hdk = paramVal(db, 'HD_KELAS', kelas, asOf);
+  hd = hdk.median;
+  if (inp.replaced) { const ref = hdPengganti(db, inp.replaced, inp.bdl); if (ref) { hd = ref.hd; sumber = 'Mengikuti TL digantikan'; hdRef = ref; } }
+  if (inp.hdOverride != null) hd = inp.hdOverride;
+  if (inp.sumberOverride) sumber = inp.sumberOverride;
+  const faktor = r4(1 + (fpQ - 1) + (fN.fp - 1));
+  const honorBulanan = Math.round(hd * faktor * fJ.fp * fpP);
+  const tp = paramVal(db, 'TERPENCIL', 'Daerah terpencil', asOf);
+  const hari = Math.max(0, +inp.hari || 0);
+  const tambahanMentah = tp.per_hari * hari, plafon = Math.round(tp.maks_persen * honorBulanan);
+  const tambahan = Math.min(tambahanMentah, plafon);
+  const honorBdl = honorBulanan + tambahan;
+  const lama = Math.max(0, +inp.honorLama || 0);
+  const komp25 = inp.rangkap ? Math.round(paramVal(db, 'RANGKAP', 'Pasal 26 ayat 3', asOf).persen * lama) : 0;
+  const belum = [
+    ...db.pendidikan.filter(e => e.id_orang === inp.id_orang && (e.status_verifikasi === 'Klaim' || e.status_verifikasi === 'Bukti diterima')).map(e => `Pendidikan ${e.jenjang} ${e.bidang} — ${e.institusi} (${e.status_verifikasi})`),
+    ...db.sertifikasi.filter(e => e.id_orang === inp.id_orang && (e.status_verifikasi === 'Klaim' || e.status_verifikasi === 'Bukti diterima')).map(e => `Sertifikasi ${e.nama} (${e.status_verifikasi})`),
+    ...db.pengalaman.filter(e => e.id_orang === inp.id_orang && (e.status_verifikasi === 'Klaim' || e.status_verifikasi === 'Bukti diterima')).map(e => `Pengalaman ${e.jabatan}, ${e.instansi} (${e.status_verifikasi})`)
+  ];
+  return {bdl, kelas, asOf, komp, peng, total, override, fpQ, npl, fN, jumlah, fJ, peran, fpP, hd, sumber, hdRef, hdk, faktor, honorBulanan,
+    hari, tambahanMentah, plafon, tambahan, honorBdl, lama, komp25, rangkap:!!inp.rangkap, final:honorBdl + komp25, belum};
+}
+function buatSnapshot(db, ev, opts) {
+  opts = opts || {};
+  const A = deriveAssignments(db);
+  const jumlah = Math.max(1, A.filter(a => a.bdl === ev.bdl && isActiveAt(a, ev.tmt)).length);
+  const lain = A.filter(a => a.id_orang === ev.id_orang && a.bdl !== ev.bdl && isAssignedAt(a, ev.tmt));
+  let honorLama = 0; lain.forEach(a => { const s = snapOfAssignment(db, a); if (s && !honorLama) honorLama = s.honor_final; });
+  const rangkap = lain.length > 0 && opts.rangkap25 !== false;
+  const r = hitungHonor(db, {bdl:ev.bdl, id_orang:ev.id_orang, peran:ev.peran, asOf:ev.tmt, jumlah, replaced:ev.jenis === 'Ganti' ? ev.menggantikan_id_orang : null,
+    hari:opts.hari || 0, rangkap, honorLama, hdOverride:opts.hdOverride, sumberOverride:opts.sumberOverride, bidangUtama:'auto'});
+  const kp = db.keputusan.find(k => k.id === ev.id_keputusan);
+  return {id_event:ev.id, kelas_tl:r.kelas, hd_acuan:r.hd, sumber_hd:r.sumber, skor_kompetensi:r.komp.nilai, skor_pengalaman:r.peng.nilai,
+    total_kualifikasi:r.total, fp_kualifikasi:r.fpQ, fp_npl:r.fN.fp, fp_jumlah:r.fJ.fp, jumlah_tl:jumlah, fp_posisi:r.fpP, daerah_terpencil:r.hari,
+    komponen_rangkap_25:rangkap, nilai_rangkap_25:r.komp25, honor_sebelum_tambahan:r.honorBulanan, honor_final:r.final, terkunci:true,
+    tgl_dikunci:kp ? kp.tanggal : ev.tmt, rincian:{komp:r.komp.rows.map(x => ({b:x.bidang, j:x.jenjang, c:+x.certYears.toFixed(2), e:+x.expYears.toFixed(2), s:x.skor})), peng:r.peng.rows.map(x => ({k:x.kategori, y:+x.years.toFixed(2), s:x.skor}))}};
+}
+
+/* ------------------------------------------------ VALIDASI KEPUTUSAN */
+function validasiKeputusan(db, hdr, rows, opts) {
+  opts = opts || {};
+  const E = [], W = [], nm = id => (db.orang.find(o => o.id_orang === id) || {nama:id}).nama;
+  if (!opts.skipHeader) {
+    [['nomor','Nomor'],['tanggal','Tanggal keputusan'],['jenis','Jenis keputusan'],['bdl','BDL'],['penandatangan','Penandatangan']].forEach(([f, l]) => { if (!hdr[f]) E.push(`Header: ${l} wajib diisi`); });
+    if (hdr.nomor && db.keputusan.some(k => k.nomor === hdr.nomor && k.id !== opts.excludeKp)) E.push('Header: nomor keputusan sudah dipakai');
+  }
+  if (!rows.length) E.push('Minimal satu baris event');
+  const A = deriveAssignments(db);
+  const bdlRec = db.bdl.find(b => b.id === hdr.bdl);
+  rows.forEach((r, i) => {
+    const L = 'Baris ' + (i + 1) + ' (' + (r.jenis || '?') + ')';
+    if (!r.jenis) { E.push(L + ': jenis event wajib'); return; }
+    if (r.jenis !== 'Perpanjang' && !r.id_orang) E.push(L + ': TL wajib dipilih');
+    if (!r.tmt) E.push(L + ': TMT wajib diisi');
+    if (!r.tgl_kejadian) E.push(L + ': tanggal kejadian wajib diisi');
+    if ((r.jenis === 'Angkat' || r.jenis === 'Ganti') && !r.peran) E.push(L + ': peran wajib');
+    if (r.jenis === 'Berhenti' && !r.kode_alasan) E.push(L + ': kode alasan wajib untuk Berhenti');
+    if (r.jenis === 'Perpanjang') {
+      if (!r.tgl_akhir_baru) E.push(L + ': tanggal akhir jangka waktu baru wajib');
+      else if (bdlRec && r.tgl_akhir_baru <= bdlEnd(db, bdlRec.id)) E.push(L + ': akhir jangka waktu baru harus melewati akhir saat ini (' + D.fmt(bdlEnd(db, bdlRec.id)) + ')');
+    }
+    if (r.jenis === 'Ganti') {
+      if (!r.menggantikan_id_orang) E.push(L + ': TL yang digantikan wajib diisi');
+      else {
+        const cand = [...rows.filter(x => x !== r && x.jenis === 'Berhenti' && x.id_orang === r.menggantikan_id_orang).map(x => x.tmt),
+          ...activeEvents(db).filter(x => x.bdl === hdr.bdl && x.jenis === 'Berhenti' && x.id_orang === r.menggantikan_id_orang && x.id !== r.id).map(x => x.tmt)].filter(Boolean).sort();
+        if (!cand.length) E.push(`${L}: ${nm(r.menggantikan_id_orang)} belum punya event Berhenti di BDL ini — tambahkan baris Berhenti`);
+        else if (r.tmt && r.tmt < cand[cand.length - 1]) E.push(`${L}: TMT pengganti (${D.fmt(r.tmt)}) lebih awal dari TMT pemberhentian yang digantikan (${D.fmt(cand[cand.length - 1])}) — PLPS Ps.17(5)`);
+      }
+    }
+    if (r.tgl_kejadian && r.tmt && r.jenis !== 'Perpanjang') {
+      const sel = D.diff(r.tgl_kejadian, r.tmt);
+      if (sel !== 0) W.push(`${L}: tanggal kejadian (${D.fmt(r.tgl_kejadian)}) dan TMT (${D.fmt(r.tmt)}) berselisih ${Math.abs(sel)} hari — akan ditandai untuk ditinjau`);
+      if (r.kode_alasan === '17(1)e' && sel < 0) W.push(`${L}: alasan meninggal dunia tetapi TMT lebih awal dari tanggal kejadian`);
+    }
+    if (hdr.tanggal && r.tmt && r.tmt < hdr.tanggal) W.push(`${L}: TMT berlaku surut ${D.diff(r.tmt, hdr.tanggal)} hari dari tanggal keputusan`);
+    if (r.jenis === 'Angkat' && r.id_orang && r.tmt) {
+      if (A.some(a => a.id_orang === r.id_orang && a.bdl === hdr.bdl && isAssignedAt(a, r.tmt) && !(opts.excludeEv && a.event_mulai === opts.excludeEv))) W.push(`${L}: ${nm(r.id_orang)} sudah bertugas di BDL ini pada TMT tersebut`);
+      const lain = A.filter(a => a.id_orang === r.id_orang && a.bdl !== hdr.bdl && isAssignedAt(a, r.tmt));
+      if (lain.length) W.push(`${L}: ${nm(r.id_orang)} aktif di ${lain.map(a => a.bdl).join(', ')} → rangkap: wajib dasar 17(1)a dan komponen 25% (PLPS 17(1)a; PADK 26(3))`);
+    }
+    if ((r.jenis === 'Berhenti' || r.jenis === 'Nonaktif') && r.id_orang && r.tmt && !A.some(a => a.id_orang === r.id_orang && a.bdl === hdr.bdl && isAssignedAt(a, r.tmt)) && !rows.some(x => x !== r && (x.jenis === 'Angkat' || x.jenis === 'Ganti') && x.id_orang === r.id_orang))
+      W.push(`${L}: ${nm(r.id_orang)} tidak punya penugasan aktif di BDL ini pada TMT tersebut`);
+  });
+  return {E, W};
+}
+
+/* ------------------------------------------------ CROSSCHECK */
+function crosscheck(db) {
+  const out = [], A = deriveAssignments(db), evs = activeEvents(db);
+  const nm = id => (db.orang.find(o => o.id_orang === id) || {nama:id}).nama;
+  const bn = id => (db.bdl.find(b => b.id === id) || {nama:id}).nama;
+  const push = o => out.push(Object.assign({id:'CC-' + String(out.length + 1).padStart(3,'0')}, o));
+  const kpOf = e => db.keputusan.find(k => k.id === e.id_keputusan);
+
+  // #1 & #2
+  db.bdl.forEach(b => {
+    const dates = [...new Set([b.mulai, ...evs.filter(e => e.bdl === b.id && e.jenis !== 'Perpanjang').map(e => e.tmt)])].filter(d => d >= b.mulai && d <= TODAY).sort();
+    const v1 = [], v2 = [];
+    dates.forEach((d, i) => {
+      const to = dates[i + 1] ? D.add(dates[i + 1], -1) : TODAY;
+      const act = A.filter(a => a.bdl === b.id && isActiveAt(a, d));
+      const n = act.length, k = act.filter(a => a.peran === 'Ketua').length;
+      const add = (arr, key, extra) => { const l = arr[arr.length - 1]; if (l && l.key === key && D.add(l.to, 1) === d) l.to = to; else arr.push(Object.assign({key, from:d, to}, extra)); };
+      if (n < 2 || n > 9) add(v1, 'n' + n, {n});
+      if (k !== 1) add(v2, 'k' + k, {k});
+    });
+    v1.forEach(v => push({rule:1, sev:'Tinggi', bdl:b.id, orang:null, judul:`Jumlah TL aktif ${v.n} (di luar 2–9)`, detail:`${bn(b.id)}: hanya ${v.n} TL aktif pada ${D.fmt(v.from)} s.d. ${D.fmt(v.to)}. Dasar: PLPS Ps.15.`, link:'#/timeline/' + b.id}));
+    v2.forEach(v => push({rule:2, sev:'Tinggi', bdl:b.id, orang:null, judul:`Ketua aktif berjumlah ${v.k} (harus 1)`, detail:`${bn(b.id)}: ${v.k} ketua aktif pada ${D.fmt(v.from)} s.d. ${D.fmt(v.to)}. Dasar: PLPS Ps.15 ayat 4.`, link:'#/timeline/' + b.id}));
+  });
+
+  // #3 & #4 (pengganti)
+  evs.filter(e => e.jenis === 'Ganti').forEach(e => {
+    const rep = e.menggantikan_id_orang, kp = kpOf(e);
+    const ber = evs.filter(x => x.jenis === 'Berhenti' && x.id_orang === rep && x.bdl === e.bdl).sort((a, b) => a.tmt < b.tmt ? -1 : 1).pop();
+    if (!ber) push({rule:3, sev:'Tinggi', bdl:e.bdl, orang:e.id_orang, judul:'Pengganti tanpa event Berhenti', detail:`${nm(e.id_orang)} menggantikan ${nm(rep)} tetapi tidak ada event Berhenti untuk TL yang digantikan.`, link:'#/keputusan/' + e.id_keputusan});
+    else if (e.tmt < ber.tmt) push({rule:3, sev:'Tinggi', bdl:e.bdl, orang:e.id_orang, judul:'TMT pengganti lebih awal dari TMT pemberhentian', detail:`TMT ${nm(e.id_orang)} ${D.fmt(e.tmt)} < TMT berhenti ${nm(rep)} ${D.fmt(ber.tmt)}. PLPS Ps.17(5).`, link:'#/keputusan/' + e.id_keputusan});
+    const asalEv = evs.filter(x => x.id_orang === rep && x.bdl === e.bdl && (x.jenis === 'Angkat' || x.jenis === 'Ganti')).sort((a, b) => a.tmt < b.tmt ? -1 : 1).pop();
+    const sisa = (asalEv && asalEv.akhir_masa_tugas) || bdlEnd(db, e.bdl), akhir = e.akhir_masa_tugas || bdlEnd(db, e.bdl);
+    if (akhir > sisa) push({rule:3, sev:'Sedang', bdl:e.bdl, orang:e.id_orang, judul:'Masa tugas pengganti melebihi sisa masa tugas yang digantikan', detail:`Akhir masa tugas pengganti ${D.fmt(akhir)} > ${D.fmt(sisa)}. PLPS Ps.17(5).`, link:'#/keputusan/' + e.id_keputusan});
+    const sp = snapByEvent(db, e.id), sr = asalEv ? snapByEvent(db, asalEv.id) : null;
+    if (sp && sr && (sp.hd_acuan !== sr.hd_acuan || sp.sumber_hd !== 'Mengikuti TL digantikan'))
+      push({rule:4, sev:'Sedang', bdl:e.bdl, orang:e.id_orang, judul:'HD pengganti tidak sama dengan HD TL yang digantikan', detail:`Snapshot terkunci ${nm(e.id_orang)}: HD ${rp(sp.hd_acuan)} (sumber "${sp.sumber_hd}"); HD ${nm(rep)}: ${rp(sr.hd_acuan)}. Seharusnya mengikuti TL digantikan — PADK Ps.26(4). Snapshot terkunci: perlu keputusan koreksi.`, link:'#/tl/' + e.id_orang + '/honor'});
+  });
+
+  // #5 rangkap
+  const seen5 = new Set();
+  A.forEach(a => A.forEach(b => {
+    if (a.id_orang !== b.id_orang || a.bdl >= b.bdl) return;
+    const s = D.max(a.tmt_mulai, b.tmt_mulai), e = D.min(a.tmt_selesai || '9999-12-31', b.tmt_selesai || '9999-12-31');
+    if (s >= e) return;
+    const later = a.tmt_mulai > b.tmt_mulai ? a : b, key = a.id_orang + later.id; if (seen5.has(key)) return; seen5.add(key);
+    const evM = db.event.find(x => x.id === later.event_mulai), sn = snapOfAssignment(db, later);
+    const dasar = evM && evM.kode_alasan === '17(1)a', komp = sn && sn.komponen_rangkap_25;
+    const miss = [!dasar ? 'dasar rangkap 17(1)a' : null, !komp ? 'komponen 25%' : null].filter(Boolean);
+    push({rule:5, sev:miss.length ? 'Tinggi' : 'Sedang', bdl:later.bdl, orang:a.id_orang, judul:'TL aktif di lebih dari 1 BDL (rangkap)',
+      detail:`${nm(a.id_orang)} aktif di ${a.bdl} dan ${b.bdl} sejak ${D.fmt(s)}.` + (miss.length ? ` Belum tercatat: ${miss.join(' & ')} pada penugasan ${later.bdl}. PLPS 17(1)a; PADK 26(3).` : ' Dasar rangkap dan komponen 25% tercatat — tinjau kewajaran.'), link:'#/tl/' + a.id_orang + '/penugasan'});
+  }));
+
+  // #6 jangka waktu
+  db.bdl.forEach(b => {
+    const end = bdlEnd(db, b.id), aw = b.akhir_jangka_waktu_likuidasi;
+    A.filter(a => a.bdl === b.id).forEach(a => {
+      if (a.tmt_selesai && a.tmt_selesai > end) push({rule:6, sev:'Tinggi', bdl:b.id, orang:a.id_orang, judul:'Penugasan berakhir melewati jangka waktu likuidasi', detail:`${nm(a.id_orang)}: tmt selesai ${D.fmt(a.tmt_selesai)} > akhir jangka waktu ${D.fmt(end)} tanpa perpanjangan.`, link:'#/timeline/' + b.id});
+      if (!a.tmt_selesai && TODAY > end) push({rule:6, sev:'Sedang', bdl:b.id, orang:a.id_orang, judul:'Penugasan aktif melewati akhir jangka waktu likuidasi', detail:`${nm(a.id_orang)} masih aktif padahal jangka waktu berakhir ${D.fmt(end)} dan tidak ada keputusan perpanjangan.`, link:'#/timeline/' + b.id});
+    });
+    evs.filter(e => e.bdl === b.id && e.akhir_masa_tugas && e.akhir_masa_tugas > end).forEach(e => push({rule:6, sev:'Sedang', bdl:b.id, orang:e.id_orang, judul:'Akhir masa tugas melebihi jangka waktu likuidasi', detail:`Event ${e.id} (${e.jenis}) menetapkan akhir masa tugas ${D.fmt(e.akhir_masa_tugas)} > ${D.fmt(end)}.`, link:'#/keputusan/' + e.id_keputusan}));
+    evs.filter(e => e.bdl === b.id && e.jenis === 'Perpanjang').forEach(e => { const kp = kpOf(e); if (kp && kp.tanggal > aw) push({rule:6, sev:'Sedang', bdl:b.id, orang:null, judul:'Keputusan perpanjangan terbit setelah jangka waktu berakhir', detail:`${kp.nomor} bertanggal ${D.fmt(kp.tanggal)}, jangka waktu semula berakhir ${D.fmt(aw)}.`, link:'#/keputusan/' + kp.id}); });
+  });
+
+  // #7 honor pada periode nonaktif, #8 THR, #9 insentif
+  const harRaya = paramRows(db, 'HARI_RAYA', TODAY).map(p => ({nama:p.kunci, tgl:p.nilai.tgl}));
+  db.pembayaran.forEach(p => {
+    const mStart = p.periode + '-01', mEnd = D.add(D.str(Date.UTC(+p.periode.slice(0,4), +p.periode.slice(5,7), 1)), -1);
+    if (p.jenis === 'Honor') {
+      A.filter(a => a.id_orang === p.id_orang && a.bdl === p.bdl).forEach(a => a.nonaktif.forEach(n => {
+        if (n.from <= mEnd && (!n.to || n.to > mStart)) push({rule:7, sev:'Tinggi', bdl:p.bdl, orang:p.id_orang, judul:'Honor dibayar pada periode nonaktif', detail:`${nm(p.id_orang)} nonaktif ${D.fmt(n.from)}–${D.fmt(n.to)} di ${p.bdl}, tetapi ada pembayaran honor ${p.periode} sebesar ${rp(p.jumlah)}. PLPS Ps.17(3).`, link:'#/tl/' + p.id_orang + '/penugasan'});
+      }));
+    }
+    if (p.jenis === 'THR') {
+      evs.filter(e => e.id_orang === p.id_orang && e.jenis === 'Berhenti').forEach(e => {
+        const h = harRaya.find(x => x.tgl.slice(0, 7) === p.periode);
+        if (h && D.diff(e.tmt, h.tgl) > 30) push({rule:8, sev:'Sedang', bdl:e.bdl, orang:p.id_orang, judul:'THR dibayar padahal berhenti > 30 hari sebelum hari raya', detail:`${nm(p.id_orang)} berhenti ${D.fmt(e.tmt)}, ${h.nama} ${D.fmt(h.tgl)} (${D.diff(e.tmt, h.tgl)} hari kemudian) tetapi THR ${rp(p.jumlah)} dibayar. PLPS Ps.18(5).`, link:'#/tl/' + p.id_orang + '/honor'});
+      });
+    }
+    if (p.jenis === 'Insentif' && p.jumlah > 0) {
+      evs.filter(e => e.id_orang === p.id_orang && e.bdl === p.bdl && e.jenis === 'Berhenti' && (e.kode_alasan === '17(1)b' || e.kode_alasan === '17(1)c')).forEach(e =>
+        push({rule:9, sev:'Tinggi', bdl:p.bdl, orang:p.id_orang, judul:'Insentif dibayar padahal alasan berhenti ' + e.kode_alasan, detail:`${nm(p.id_orang)} berhenti dengan ${e.kode_alasan}; insentif ${rp(p.jumlah)} (${p.periode}) seharusnya nol. PLPS Ps.62A.`, link:'#/tl/' + p.id_orang + '/honor'}));
+    }
+  });
+
+  // #10 selisih tgl kejadian vs TMT
+  evs.filter(e => e.jenis !== 'Perpanjang' && e.tgl_kejadian !== e.tmt).forEach(e => {
+    const d = Math.abs(D.diff(e.tgl_kejadian, e.tmt));
+    push({rule:10, sev:d > 7 ? 'Sedang' : 'Rendah', bdl:e.bdl, orang:e.id_orang, judul:`Selisih tgl kejadian vs TMT ${d} hari`, detail:`${e.jenis} ${nm(e.id_orang)}: kejadian ${D.fmt(e.tgl_kejadian)}, TMT ${D.fmt(e.tmt)}${e.kode_alasan ? ', alasan ' + e.kode_alasan : ''}. Tinjau dampak honor.`, link:'#/keputusan/' + e.id_keputusan});
+  });
+
+  // #11 keluarga
+  const act = (id, bdl) => A.filter(a => a.id_orang === id && a.bdl === bdl);
+  const done11 = new Set();
+  db.orang.forEach(o => (o.relasi_keluarga || []).forEach(r => {
+    if (r.jenis === 'TL') {
+      const key = [o.id_orang, r.ke].sort().join('|'); if (done11.has(key)) return; done11.add(key);
+      db.bdl.forEach(b => act(o.id_orang, b.id).forEach(a1 => act(r.ke, b.id).forEach(a2 => {
+        const s = D.max(a1.tmt_mulai, a2.tmt_mulai), e = D.min(a1.tmt_selesai || '9999-12-31', a2.tmt_selesai || '9999-12-31');
+        if (s < e) push({rule:11, sev:'Tinggi', bdl:b.id, orang:o.id_orang, judul:'Hubungan keluarga antar-TL dalam satu BDL', detail:`${nm(o.id_orang)} dan ${nm(r.ke)} (${r.hubungan}) bertugas bersamaan di ${b.id}. PLPS Ps.16(2).`, link:'#/tl/' + o.id_orang});
+      })));
+    } else if (r.jenis === 'TP' && r.bdl) {
+      act(o.id_orang, r.bdl).forEach(a => push({rule:11, sev:'Tinggi', bdl:r.bdl, orang:o.id_orang, judul:'Hubungan keluarga TL–TP', detail:`${nm(o.id_orang)} bertugas di ${r.bdl} dan berkerabat (${r.hubungan}) dengan ${r.ke}. PLPS Ps.16(2).`, link:'#/tl/' + o.id_orang}));
+    }
+  }));
+
+  // #12 klaim TL di BDL vs tabel Penugasan
+  db.pengalaman.filter(p => p.ref_bdl && p.status_verifikasi !== 'Ditolak').forEach(p => {
+    const asg = A.filter(a => a.id_orang === p.id_orang && a.bdl === p.ref_bdl).sort((a, b) => a.tmt_mulai < b.tmt_mulai ? -1 : 1);
+    if (!asg.length) { push({rule:12, sev:'Tinggi', bdl:p.ref_bdl, orang:p.id_orang, judul:'Klaim CV sebagai TL tanpa penugasan tercatat', detail:`CV ${nm(p.id_orang)} mengklaim TL di ${p.ref_bdl} (${D.fmt(p.tgl_mulai)}–${D.fmt(p.tgl_selesai)}) namun tidak ada penugasan hasil event.`, link:'#/tl/' + p.id_orang + '/pengalaman'}); return; }
+    const aM = asg[0].tmt_mulai, aS = asg[asg.length - 1].tmt_selesai, dM = Math.abs(D.diff(p.tgl_mulai, aM));
+    let dS = 0; if ((p.tgl_selesai == null) !== (aS == null)) dS = 999; else if (p.tgl_selesai) dS = Math.abs(D.diff(p.tgl_selesai, aS));
+    if (dM > 31 || dS > 31) push({rule:12, sev:'Sedang', bdl:p.ref_bdl, orang:p.id_orang, judul:'Periode klaim TL di CV tidak cocok dengan Penugasan', detail:`CV: ${D.fmt(p.tgl_mulai)}–${D.fmt(p.tgl_selesai) === '—' ? 'sekarang' : D.fmt(p.tgl_selesai)}; Penugasan (turunan Event): ${D.fmt(aM)}–${aS ? D.fmt(aS) : 'sekarang'}.`, link:'#/tl/' + p.id_orang + '/pengalaman'});
+  });
+
+  // #13 pengalaman tumpang tindih pada instansi berbeda
+  db.orang.forEach(o => {
+    const ps = db.pengalaman.filter(p => p.id_orang === o.id_orang && p.status_verifikasi !== 'Ditolak');
+    for (let i = 0; i < ps.length; i++) for (let j = i + 1; j < ps.length; j++) {
+      const a = ps[i], b = ps[j]; if (a.instansi === b.instansi) continue;
+      const as = a.tgl_mulai, ae = a.tgl_selesai || TODAY, bs = b.tgl_mulai, be = b.tgl_selesai || TODAY;
+      if (as <= be && bs <= ae) push({rule:13, sev:'Rendah', bdl:null, orang:o.id_orang, judul:'Periode pengalaman tumpang tindih (instansi berbeda)', detail:`${nm(o.id_orang)}: "${a.instansi}" (${D.fmt(as)}–${D.fmt(a.tgl_selesai)}) dan "${b.instansi}" (${D.fmt(bs)}–${D.fmt(b.tgl_selesai)}) berimpit ${D.fmt(D.max(as, bs))}–${D.fmt(D.min(ae, be))}.`, link:'#/tl/' + o.id_orang + '/pengalaman'});
+    }
+  });
+  const sevRank = {Tinggi:0, Sedang:1, Rendah:2};
+  out.sort((a, b) => sevRank[a.sev] - sevRank[b.sev] || a.rule - b.rule);
+  return out;
+}
+const RULE_TEXT = {1:'Jumlah TL aktif 2–9 (PLPS Ps.15)', 2:'Tepat 1 ketua aktif (PLPS Ps.15(4))', 3:'TMT & masa tugas pengganti (PLPS Ps.17(5))', 4:'HD pengganti = HD yang digantikan (PADK Ps.26(4))',
+  5:'Rangkap: dasar & komponen 25% (PLPS 17(1)a; PADK 26(3))', 6:'Akhir penugasan ≤ akhir jangka waktu / ada perpanjangan', 7:'Tidak ada honor saat nonaktif (PLPS Ps.17(3))',
+  8:'THR tidak dibayar bila berhenti >30 hari sebelum hari raya (PLPS Ps.18(5))', 9:'Insentif nol bila 17(1)b/c (PLPS Ps.62A)', 10:'Selisih tgl kejadian vs TMT', 11:'Hubungan keluarga TL–TL / TL–TP (PLPS Ps.16(2))',
+  12:'Klaim TL di CV cocok dengan Penugasan', 13:'Pengalaman tumpang tindih (instansi berbeda)'};
+
+if (typeof module !== 'undefined') module.exports = {seedDB, deriveAssignments, hitungHonor, hitungKompetensi, hitungPengalaman, crosscheck, validasiKeputusan, buatSnapshot, activeEvents, supersededSet, bdlEnd, isActiveAt, isAssignedAt, TODAY, D, statusPool};
+
+/* =====================================================================
+   UI (bagian 1): kerangka, router, Dashboard, Daftar TL, Profil, CV Masuk, Verifikasi
+   ===================================================================== */
+const LS_KEY = 'silika_tl_mockup_db_v1';
+function loadDB() {
+  try { const s = localStorage.getItem(LS_KEY); if (s) { const d = JSON.parse(s); if (d && d.version === SEED_VERSION && d.orang) return d; } } catch (e) {}
+  const d = seedDB(); try { localStorage.setItem(LS_KEY, JSON.stringify(d)); } catch (e) {} return d;
+}
+let db = loadDB();
+function save() { try { localStorage.setItem(LS_KEY, JSON.stringify(db)); } catch (e) {} }
+const $ = s => document.querySelector(s);
+const nid = (p, w = 3) => { db.seq[p] = (db.seq[p] || 0) + 1; return p + '-' + String(db.seq[p]).padStart(w, '0'); };
+const nama = id => { const o = db.orang.find(x => x.id_orang === id); return o ? o.nama : (id || '—'); };
+const linkOrang = (id, tab) => id ? `<a href="#/tl/${id}${tab ? '/' + tab : ''}">${esc(nama(id))}</a>` : '—';
+const bdlNama = id => (db.bdl.find(b => b.id === id) || {nama:id}).nama;
+const linkBdl = id => `<a href="#/timeline/${id}">${esc(bdlNama(id))}</a>`;
+const linkKp = id => { const k = db.keputusan.find(x => x.id === id); return k ? `<a href="#/keputusan/${k.id}">${esc(k.nomor)}</a>` : '—'; };
+const initials = n => n.split(' ').slice(0, 2).map(x => x[0]).join('');
+const statusCls = {'Terverifikasi':'b-ok','Klaim':'b-warn','Bukti diterima':'b-info','Ditolak':'b-bad'};
+const badge = (st, mig) => `<span class="badge ${statusCls[st] || 'b-gray'}">${st === 'Klaim' && mig ? 'Klaim (migrasi CV)' : st}</span>`;
+const sevBadge = s => `<span class="badge ${s === 'Tinggi' ? 'b-bad' : s === 'Sedang' ? 'b-warn' : 'b-gray'}">${s}</span>`;
+const poolCls = {'Bertugas':'b-info','Tersedia':'b-ok','Tidak Tersedia':'b-gray','Dalam Evaluasi':'b-warn','Meninggal Dunia':'b-gray'};
+function toast(msg, kind) { const t = document.createElement('div'); t.className = 'toast ' + (kind || ''); t.textContent = msg; $('#toast').appendChild(t); setTimeout(() => t.remove(), 4200); }
+function openModal(html, wide) { const m = $('#modal'); m.innerHTML = `<div class="mbox ${wide ? 'wide' : ''}">${html}</div>`; m.classList.remove('hidden'); }
+function closeModal() { $('#modal').classList.add('hidden'); $('#modal').innerHTML = ''; }
+const antrian = () => [...db.pendidikan.map(e => ({tipe:'Pendidikan', e})), ...db.sertifikasi.map(e => ({tipe:'Sertifikasi', e})), ...db.pengalaman.map(e => ({tipe:'Pengalaman', e}))]
+  .filter(x => x.e.status_verifikasi === 'Klaim' || x.e.status_verifikasi === 'Bukti diterima');
+function findEntry(id) { const p = id.slice(0, 2); const arr = p === 'PD' ? db.pendidikan : p === 'SR' ? db.sertifikasi : db.pengalaman; return {e:arr.find(x => x.id === id), tipe:p === 'PD' ? 'Pendidikan' : p === 'SR' ? 'Sertifikasi' : 'Pengalaman'}; }
+function ringkas(tipe, e) {
+  if (tipe === 'Pendidikan') return `${e.jenjang} ${e.bidang} — ${e.institusi} (lulus ${e.tahun_lulus})`;
+  if (tipe === 'Sertifikasi') return `${e.nama} · ${e.bidang} · terbit ${D.fmt(e.tgl_terbit)}`;
+  return `${e.jabatan}, ${e.instansi} · ${D.fmt(e.tgl_mulai)} – ${e.tgl_selesai ? D.fmt(e.tgl_selesai) : 'sekarang'}`;
+}
+const opt = (list, sel, blank) => (blank != null ? `<option value="">${blank}</option>` : '') + list.map(x => { const v = Array.isArray(x) ? x[0] : x, l = Array.isArray(x) ? x[1] : x; return `<option value="${esc(v)}"${String(v) === String(sel) ? ' selected' : ''}>${esc(l)}</option>`; }).join('');
+
+/* ---------- state UI (tidak dipersist) ---------- */
+const ui = {
+  tl:{q:'', bidang:'', jenjang:'', status:'', bdl:'', jml:''},
+  cv:{orang:'', baru:false, namaBaru:'', nikBaru:'', file:'', catatan:'', draft:[], f:{tipe:'Pendidikan', jenjang:'S1', bidang:'Hukum'}, qa:''},
+  ver:{tipe:'', status:''}, cc:{sev:'', rule:''}, kv:'list', tlBdl:'BDL-01', kf:null, evEdit:null,
+  calc:{bdl:'BDL-01', mode:'pengganti', replaced:'TL-002', kandidat:'TL-011', peran:'', jumlah:'', npl:'', hari:'', rangkap:null, honorLama:'', totalOverride:'', bidangUtama:'auto'}
+};
+const V = {};
+const NAV = [['dashboard','Dashboard','▦'],['tl','Daftar TL & Profil','☰'],['cv','CV Masuk','⇪'],['verifikasi','Antrian Verifikasi','✔'],['keputusan','Keputusan & Event','§'],['timeline','Timeline Penugasan','▤'],['kalkulator','Kalkulator Honor','∑'],['crosscheck','Crosscheck','⚠'],['parameter','Parameter PADK','⚙']];
+function route() { const h = location.hash || '#/dashboard'; const [p, qs] = h.slice(2).split('?'); return {seg:p.split('/').map(decodeURIComponent), q:new URLSearchParams(qs || '')}; }
+function renderNav(cur) {
+  const nq = antrian().length, nt = crosscheck(db).filter(c => c.sev === 'Tinggi').length;
+  $('#nav').innerHTML = NAV.map(([k, l, ic]) => `<a href="#/${k}" class="${k === cur ? 'on' : ''}"><span class="ic">${ic}</span>${l}${k === 'verifikasi' && nq ? `<span class="cnt">${nq}</span>` : ''}${k === 'crosscheck' && nt ? `<span class="cnt">${nt}</span>` : ''}</a>`).join('');
+}
+function render(keepScroll) {
+  const r = route(), v = r.seg[0] || 'dashboard', fn = V[v] || V.dashboard;
+  const y = window.scrollY;
+  const [crumb, html] = fn(r.seg, r.q);
+  $('#main').innerHTML = html; $('#crumb').textContent = crumb;
+  $('#userSel').innerHTML = opt(STAFF.map(s => [s.nama, s.nama + ' — ' + s.peran]), db.meta.user);
+  renderNav(V[v] ? v : 'dashboard');
+  if (typeof renderKValid === 'function') renderKValid();
+  $('#side').classList.remove('open');
+  if (keepScroll) window.scrollTo(0, y); else window.scrollTo(0, 0);
+}
+const refresh = () => render(true);
+
+/* ================= DASHBOARD ================= */
+V.dashboard = () => {
+  const A = deriveAssignments(db), aktif = A.filter(a => a.status === 'Aktif');
+  const orangAktif = [...new Set(aktif.map(a => a.id_orang))];
+  const rangkap = orangAktif.filter(id => aktif.filter(a => a.id_orang === id).length > 1);
+  const bdlJalan = db.bdl.filter(b => b.status === 'Berjalan');
+  const q = antrian().length, cc = crosscheck(db), tinggi = cc.filter(c => c.sev === 'Tinggi').length;
+  const certs = db.sertifikasi.filter(s => s.status_verifikasi !== 'Ditolak' && s.tgl_kedaluwarsa && D.diff(TODAY, s.tgl_kedaluwarsa) < 90).sort((a, b) => a.tgl_kedaluwarsa < b.tgl_kedaluwarsa ? -1 : 1);
+  const habis = bdlJalan.filter(b => D.diff(TODAY, bdlEnd(db, b.id)) < 90);
+  const kpi = (href, v, l, cls) => `<a class="kpi ${cls || ''}" href="${href}"><div class="v">${v}</div><div class="l">${l}</div></a>`;
+  return ['Dashboard', `
+  <h1>Dashboard</h1><p class="sub">Ringkasan per ${D.fmt(TODAY)} (tanggal demo). Klik kartu untuk membuka data terkait.</p>
+  <div class="grid g6" style="margin-bottom:16px">
+    ${kpi('#/tl', orangAktif.length, 'TL aktif bertugas' + (rangkap.length ? ` · <b style="color:var(--warn)">${rangkap.length} rangkap</b>` : ''))}
+    ${kpi('#/timeline', bdlJalan.length, 'BDL berjalan')}
+    ${kpi('#/verifikasi', q, 'Entri menunggu verifikasi', 'warn')}
+    ${kpi('#/crosscheck', cc.length, `Anomali crosscheck · <b style="color:var(--bad)">${tinggi} tinggi</b>`, 'bad')}
+    ${kpi('#/tl', certs.length, 'Sertifikat kedaluwarsa < 90 hari', 'warn')}
+    ${kpi('#/timeline', habis.length, 'BDL jangka waktu berakhir < 90 hari', 'warn')}
+  </div>
+  <div class="card"><h2>BDL berjalan</h2><div class="tw"><table class="tbl"><thead><tr><th>BDL</th><th>Kelas</th><th>% NPL</th><th>TL aktif</th><th>Ketua</th><th>Akhir jangka waktu</th><th>Sisa</th></tr></thead><tbody>
+  ${bdlJalan.map(b => {
+    const act = A.filter(a => a.bdl === b.id && isActiveAt(a, TODAY)), end = bdlEnd(db, b.id), sisa = D.diff(TODAY, end), ket = act.find(a => a.peran === 'Ketua');
+    const out = act.length < 2 || act.length > 9, under = act.length < b.jumlah_tl_min;
+    return `<tr><td>${linkBdl(b.id)}<div class="muted">${b.id}</div></td><td>${b.kelas_tl}</td><td>${b.persen_npl}%</td>
+      <td><b>${act.length}</b> <span class="muted">(kelas: ${b.jumlah_tl_min}–${b.jumlah_tl_maks})</span> ${out ? '<span class="badge b-bad">di luar 2–9</span>' : under ? '<span class="badge b-warn">&lt; min kelas → FP 105%</span>' : ''}</td>
+      <td>${ket ? linkOrang(ket.id_orang) : '<span class="badge b-bad">tidak ada</span>'}</td>
+      <td>${D.fmt(end)}${end !== b.akhir_jangka_waktu_likuidasi ? ' <span class="badge b-info">diperpanjang</span>' : ''}</td>
+      <td class="${sisa < 90 ? 'right' : ''}"><span class="badge ${sisa < 90 ? 'b-warn' : 'b-gray'}">${sisa} hari</span></td></tr>`;
+  }).join('')}</tbody></table></div></div>
+  <div class="grid g2">
+    <div class="card"><h2>Sertifikat kedaluwarsa &lt; 90 hari</h2>${certs.length ? `<table class="tbl"><tbody>${certs.map(s => { const d = D.diff(TODAY, s.tgl_kedaluwarsa); return `<tr><td>${linkOrang(s.id_orang, 'sertifikasi')}<div class="muted">${esc(s.nama)}</div></td><td>${D.fmt(s.tgl_kedaluwarsa)}</td><td><span class="badge ${d < 0 ? 'b-bad' : 'b-warn'}">${d < 0 ? 'lewat ' + (-d) : d} hari</span></td><td>${badge(s.status_verifikasi, s.migrasi)}</td></tr>`; }).join('')}</tbody></table>` : '<p class="muted">Tidak ada.</p>'}</div>
+    <div class="card"><h2>Anomali tingkat Tinggi</h2>${cc.filter(c => c.sev === 'Tinggi').slice(0, 6).map(c => `<p style="margin:0 0 9px"><span class="badge b-gray">#${c.rule}</span> <a href="${c.link}">${esc(c.judul)}</a><br><span class="muted">${esc(c.detail.slice(0, 140))}${c.detail.length > 140 ? '…' : ''}</span></p>`).join('') || '<p class="muted">Tidak ada.</p>'}<a href="#/crosscheck">Lihat semua anomali →</a></div>
+  </div>`];
+};
+
+/* ================= DAFTAR TL ================= */
+function tlRows() {
+  const A = deriveAssignments(db), f = ui.tl, q = f.q.trim().toLowerCase();
+  return db.orang.map(o => {
+    const edu = db.pendidikan.filter(p => p.id_orang === o.id_orang && p.status_verifikasi !== 'Ditolak');
+    const top = edu.map(p => p.jenjang).sort((a, b) => JENJANG_RANK[b] - JENJANG_RANK[a])[0] || '—';
+    const bidang = [...new Set([...edu.map(p => p.bidang), ...db.sertifikasi.filter(s => s.id_orang === o.id_orang && s.status_verifikasi !== 'Ditolak').map(s => s.bidang), ...db.pengalaman.filter(p => p.id_orang === o.id_orang && p.status_verifikasi !== 'Ditolak').map(p => p.bidang)])];
+    const asg = A.filter(a => a.id_orang === o.id_orang && (a.status === 'Aktif' || a.status === 'Nonaktif'));
+    return {o, top, bidang, asg, pool:statusPool(db, A, o)};
+  }).filter(r => (!q || (r.o.nama + ' ' + r.o.id_orang).toLowerCase().includes(q)) && (!f.bidang || r.bidang.includes(f.bidang)) && (!f.jenjang || r.top === f.jenjang) && (!f.status || r.pool === f.status)
+    && (!f.bdl || r.asg.some(a => a.bdl === f.bdl)) && (!f.jml || (f.jml === '2' ? r.asg.length >= 2 : r.asg.length === +f.jml)));
+}
+function tlTableHTML() {
+  const rows = tlRows();
+  return `<table class="tbl"><thead><tr><th>ID</th><th>Nama</th><th>Jenjang tertinggi</th><th>Bidang</th><th>Status pool</th><th>BDL aktif</th><th class="right">Σ BDL</th></tr></thead><tbody>
+  ${rows.map(r => `<tr><td class="nowrap">${r.o.id_orang}</td><td><a href="#/tl/${r.o.id_orang}"><b>${esc(r.o.nama)}</b></a></td><td>${r.top}</td><td>${r.bidang.map(b => `<span class="pill">${b}</span>`).join('')}</td>
+  <td><span class="badge ${poolCls[r.pool] || 'b-gray'}">${r.pool}</span></td>
+  <td>${r.asg.map(a => `<a class="pill" href="#/timeline/${a.bdl}">${a.bdl} · ${a.peran}${a.status === 'Nonaktif' ? ' (nonaktif)' : ''}</a>`).join('') || '<span class="muted">—</span>'}</td>
+  <td class="right">${r.asg.length > 1 ? `<span class="pill flag" title="Aktif di lebih dari 1 BDL — lihat crosscheck #5">⚠ ${r.asg.length} BDL</span>` : r.asg.length}</td></tr>`).join('') || '<tr><td colspan="7" class="muted">Tidak ada data sesuai filter.</td></tr>'}</tbody></table><p class="muted" style="margin:8px 0 0">${rows.length} dari ${db.orang.length} orang</p>`;
+}
+const profilTabs = [['pendidikan','Pendidikan'],['sertifikasi','Sertifikasi'],['pengalaman','Pengalaman'],['penugasan','Riwayat Penugasan'],['honor','Honor'],['dokumen','Dokumen'],['versi','Versi CV']];
+V.tl = seg => seg[1] ? profil(seg[1], seg[2] || 'pendidikan') : ['Daftar TL', `
+  <h1>Daftar Tim Likuidasi (pool TL)</h1><p class="sub">Orang = lapis pertama. Penugasan dan honor adalah turunan/peristiwa terpisah. Klik nama untuk membuka profil.</p>
+  <div class="card"><div class="filters">
+    <div><label class="f">Cari nama / ID</label><input data-bind="tl.q" value="${esc(ui.tl.q)}" placeholder="mis. Bambang atau TL-005"></div>
+    <div><label class="f">Bidang</label><select data-bind="tl.bidang">${opt(BIDANG3, ui.tl.bidang, 'Semua')}</select></div>
+    <div><label class="f">Jenjang tertinggi</label><select data-bind="tl.jenjang">${opt(['D3','S1','S2','S3'], ui.tl.jenjang, 'Semua')}</select></div>
+    <div><label class="f">Status pool</label><select data-bind="tl.status">${opt(['Bertugas','Tersedia','Tidak Tersedia','Dalam Evaluasi','Meninggal Dunia'], ui.tl.status, 'Semua')}</select></div>
+    <div><label class="f">BDL aktif</label><select data-bind="tl.bdl">${opt(db.bdl.map(b => [b.id, b.id + ' — ' + b.nama]), ui.tl.bdl, 'Semua')}</select></div>
+    <div><label class="f">Jumlah BDL dipegang</label><select data-bind="tl.jml">${opt([['0','0 (tidak bertugas)'],['1','1'],['2','≥ 2 (rangkap)']], ui.tl.jml, 'Semua')}</select></div>
+  </div><div class="tw" id="tl-table">${tlTableHTML()}</div></div>`];
+
+function profil(id, tab) {
+  const o = db.orang.find(x => x.id_orang === id); if (!o) return ['Profil TL', '<div class="card">TL tidak ditemukan.</div>'];
+  const A = deriveAssignments(db), pool = statusPool(db, A, o);
+  const all = [...db.pendidikan, ...db.sertifikasi, ...db.pengalaman].filter(e => e.id_orang === id);
+  const cnt = s => all.filter(e => e.status_verifikasi === s).length;
+  const aktif = A.filter(a => a.id_orang === id && a.status === 'Aktif');
+  const rel = (o.relasi_keluarga || []).map(r => `${r.jenis === 'TL' ? linkOrang(r.ke) : esc(r.ke)} <span class="muted">(${esc(r.hubungan)}, ${r.jenis})</span>`).join('<br>') || '—';
+  let body = '';
+  const T = {
+    pendidikan:() => tabelEntri(db.pendidikan.filter(e => e.id_orang === id), ['Jenjang','Bidang','Institusi','Lulus','Sumber','Versi CV','Status'], e => [e.jenjang, e.bidang, esc(e.institusi), e.tahun_lulus, e.sumber, 'v' + e.id_versi, badge(e.status_verifikasi, e.migrasi)]),
+    sertifikasi:() => tabelEntri(db.sertifikasi.filter(e => e.id_orang === id), ['Nama','Bidang','Terbit','Kedaluwarsa','Versi CV','Status'], e => { const d = e.tgl_kedaluwarsa ? D.diff(TODAY, e.tgl_kedaluwarsa) : 9999; return [esc(e.nama), e.bidang, D.fmt(e.tgl_terbit), D.fmt(e.tgl_kedaluwarsa) + (d < 90 ? ` <span class="badge ${d < 0 ? 'b-bad' : 'b-warn'}">${d < 0 ? 'lewat' : d + ' hari'}</span>` : ''), 'v' + e.id_versi, badge(e.status_verifikasi, e.migrasi)]; }),
+    pengalaman:() => tabelEntri(db.pengalaman.filter(e => e.id_orang === id), ['Instansi / jabatan','Periode','Durasi','Bidang','Kategori PADK','Penilai & alasan klasifikasi','Status'], e => [`<b>${esc(e.instansi)}</b><br>${esc(e.jabatan)}${e.ref_bdl ? `<br><a class="pill" href="#/timeline/${e.ref_bdl}">klaim TL di ${e.ref_bdl}</a>` : ''}`,
+      `${D.fmt(e.tgl_mulai)} – ${e.tgl_selesai ? D.fmt(e.tgl_selesai) : 'sekarang'}`, num(rangesYears([{s:e.tgl_mulai, e:e.tgl_selesai || TODAY}]), 1) + ' th', e.bidang,
+      e.kategori_padk ? esc(e.kategori_padk) : `<span class="muted">usulan: ${esc(e.kategori_usulan || '—')}<br>(belum diklasifikasi)</span>`,
+      e.penilai ? `${esc(e.penilai)}<br><span class="muted">${esc(e.alasan_klasifikasi)}</span>` : '<span class="muted">—</span>', badge(e.status_verifikasi, e.migrasi)]),
+    penugasan:() => `<div class="note">Riwayat penugasan <b>diturunkan otomatis dari tabel Event</b> (tidak diinput manual).</div><div class="tw"><table class="tbl"><thead><tr><th>BDL</th><th>Peran</th><th>TMT mulai</th><th>TMT selesai</th><th>Status</th><th>Alasan berhenti</th><th>Menggantikan</th><th>Dasar (keputusan)</th></tr></thead><tbody>
+      ${A.filter(a => a.id_orang === id).map(a => { const em = db.event.find(e => e.id === a.event_mulai), es = a.event_selesai && db.event.find(e => e.id === a.event_selesai);
+        return `<tr><td>${linkBdl(a.bdl)}</td><td>${a.peran}</td><td>${D.fmt(a.tmt_mulai)}</td><td>${D.fmt(a.tmt_selesai)}</td><td><span class="badge ${a.status === 'Aktif' ? 'b-ok' : a.status === 'Nonaktif' ? 'b-warn' : 'b-gray'}">${a.status}</span>${a.nonaktif.map(n => `<div class="muted">nonaktif ${D.fmt(n.from)}–${D.fmt(n.to)}</div>`).join('')}</td>
+        <td>${a.kode_selesai ? `${a.kode_selesai}<div class="muted">${esc(KODE_LABEL[a.kode_selesai] || '')}</div>` : '—'}</td><td>${a.menggantikan ? linkOrang(a.menggantikan) : '—'}</td><td>${em ? linkKp(em.id_keputusan) : ''}${es ? '<br>' + linkKp(es.id_keputusan) : ''}</td></tr>`; }).join('') || '<tr><td colspan="8" class="muted">Belum pernah ditugaskan.</td></tr>'}</tbody></table></div>`,
+    honor:() => {
+      const sn = db.snapshot.filter(s => { const e = db.event.find(x => x.id === s.id_event); return e && e.id_orang === id; });
+      const pay = db.pembayaran.filter(p => p.id_orang === id);
+      return `<div class="note">Honor = atribut <b>orang × BDL × waktu × peran</b>, bukan atribut orang. Snapshot dikunci 🔒 saat keputusan terbit.</div><div class="tw"><table class="tbl"><thead><tr><th></th><th>BDL / event</th><th>TMT</th><th>Kelas</th><th>HD acuan</th><th>Kompetensi</th><th>Pengalaman</th><th>FP kual.</th><th>FP NPL</th><th>FP jml</th><th>FP posisi</th><th>Rangkap 25%</th><th class="right">Honor final</th><th></th></tr></thead><tbody>
+      ${sn.map(s => { const e = db.event.find(x => x.id === s.id_event); return `<tr><td class="lock" title="Terkunci sejak ${D.fmt(s.tgl_dikunci)} — tidak dapat diedit">🔒</td><td>${linkBdl(e.bdl)}<div class="muted">${e.jenis} · ${e.peran} · ${e.id}</div></td><td>${D.fmt(e.tmt)}</td><td>${s.kelas_tl}</td><td>${rp(s.hd_acuan)}<div class="muted">${s.sumber_hd}</div></td><td>${num(s.skor_kompetensi)}</td><td>${num(s.skor_pengalaman)}</td><td>${pct(s.fp_kualifikasi)}</td><td>${pct(s.fp_npl)}</td><td>${pct(s.fp_jumlah)}</td><td>${pct(s.fp_posisi)}</td><td>${s.komponen_rangkap_25 ? 'Ya · ' + rp(s.nilai_rangkap_25) : '—'}</td><td class="right"><b>${rp(s.honor_final)}</b></td><td><button class="btn ghost sm" data-act="snap" data-id="${e.id}">Rincian</button></td></tr>`; }).join('') || '<tr><td colspan="14" class="muted">Belum ada snapshot honor.</td></tr>'}</tbody></table></div>
+      <h3>Realisasi pembayaran (input pendukung crosscheck #7–#9)</h3><div class="tw"><table class="tbl"><thead><tr><th>Periode</th><th>BDL</th><th>Jenis</th><th class="right">Jumlah</th><th>Catatan</th></tr></thead><tbody>${pay.map(p => `<tr><td>${p.periode}</td><td>${p.bdl}</td><td>${p.jenis}</td><td class="right">${rp(p.jumlah)}</td><td class="muted">${esc(p.catatan)}</td></tr>`).join('') || '<tr><td colspan="5" class="muted">Tidak ada.</td></tr>'}</tbody></table></div>`;
+    },
+    dokumen:() => `<div class="tw"><table class="tbl"><thead><tr><th>Jenis</th><th>Nama file</th><th>Terkait</th><th>Diunggah</th></tr></thead><tbody>${db.dokumen.filter(d => d.id_orang === id).map(d => `<tr><td>${d.jenis}</td><td>📄 ${esc(d.nama_file)}</td><td class="muted">${esc(d.ref || '')}</td><td>${D.fmt(d.tgl_unggah)}</td></tr>`).join('') || '<tr><td colspan="4" class="muted">Belum ada dokumen.</td></tr>'}</tbody></table></div>
+      <h3>Unggah dokumen pendukung (simulasi)</h3><div class="fg"><div><label class="f">Jenis</label><select id="dk-jenis">${opt(['Ijazah','Sertifikat','SK Penugasan','Surat Keterangan Kerja','Lainnya'], 'Ijazah')}</select></div>
+      <div><label class="f">Terkait entri (opsional)</label><select id="dk-ref">${opt(all.map(e => [e.id, e.id + ' — ' + (e.institusi || e.nama || e.instansi)]), '', '—')}</select></div>
+      <div><label class="f">File (tidak diunggah sungguhan)</label><input type="file" id="dk-file"></div></div><button class="btn" data-act="upDok" data-id="${id}">Unggah</button>
+      <p class="muted">Bila terkait entri berstatus <i>Klaim</i>, status otomatis menjadi <i>Bukti diterima</i>.</p>`,
+    versi:() => `<div class="note">Append-only: CV baru <b>tidak menimpa</b> data lama, ia membuat Versi_CV baru dan entri baru berstatus Klaim.</div><div class="tw"><table class="tbl"><thead><tr><th>Versi</th><th>Diterima</th><th>File</th><th>Catatan perubahan</th><th>Entri baru</th><th></th></tr></thead><tbody>${db.versi_cv.filter(v => v.id_orang === id).map(v => `<tr><td><b>v${v.no}</b></td><td>${D.fmt(v.tgl_diterima)}</td><td>📄 ${esc(v.file)}</td><td>${esc(v.catatan_perubahan)}</td><td>${all.filter(e => e.id_versi === v.no).length}</td><td><button class="btn ghost sm" data-act="diff" data-id="${id}" data-no="${v.no}">Lihat diff</button></td></tr>`).join('')}</tbody></table></div>
+      <a class="btn" href="#/cv?orang=${id}" style="display:inline-block;margin-top:10px;text-decoration:none">+ Masukkan CV baru</a>`
+  };
+  body = (T[tab] || T.pendidikan)();
+  return ['Profil TL · ' + o.nama, `
+  <p class="muted" style="margin:0 0 8px"><a href="#/tl">← Daftar TL</a></p>
+  <div class="card"><div class="ph"><div class="avatar">${initials(o.nama)}</div><div class="sp"><h1 style="margin:0">${esc(o.nama)}</h1><span class="muted">${o.id_orang}</span> · <span class="badge ${poolCls[pool] || 'b-gray'}">${pool}</span>
+    ${aktif.map(a => `<a class="pill" href="#/timeline/${a.bdl}">${a.bdl} · ${a.peran}</a>`).join('')}${aktif.length > 1 ? '<span class="pill flag">⚠ rangkap</span>' : ''}</div>
+    <div>${badge('Terverifikasi')} ${cnt('Terverifikasi')} &nbsp; ${badge('Bukti diterima')} ${cnt('Bukti diterima')} &nbsp; ${badge('Klaim')} ${cnt('Klaim')} &nbsp; ${badge('Ditolak')} ${cnt('Ditolak')}</div></div>
+    <div class="kv"><div><small>NIK (ter-mask)</small>${o.nik_masked}</div><div><small>NPWP (ter-mask)</small>${o.npwp_masked}</div><div><small>Kewarganegaraan</small>${o.wni}</div><div><small>Kontak</small>${esc(o.kontak)}</div><div><small>Relasi keluarga (crosscheck #11)</small>${rel}</div></div></div>
+  <div class="tabs">${profilTabs.map(([k, l]) => `<a href="#/tl/${id}/${k}" class="${k === tab ? 'on' : ''}">${l}</a>`).join('')}</div>${body}`];
+}
+function tabelEntri(rows, heads, fn) {
+  if (!rows.length) return '<div class="card muted">Belum ada entri.</div>';
+  return `<div class="tw"><table class="tbl"><thead><tr><th>ID</th>${heads.map(h => `<th>${h}</th>`).join('')}<th>Penginput</th></tr></thead><tbody>${rows.map(e => `<tr title="${esc(e.riwayat_status.map(r => r.status + ' — ' + r.oleh + ' (' + D.fmt(r.tgl) + ')').join('\n'))}"><td class="nowrap muted">${e.id}</td>${fn(e).map(c => `<td>${c}</td>`).join('')}<td class="muted">${esc(e.penginput)}</td></tr>`).join('')}</tbody></table></div><p class="muted">Arahkan kursor ke baris untuk melihat riwayat status (append-only).</p>`;
+}
+
+/* ================= CV MASUK ================= */
+function cvDraftFields() {
+  const f = ui.cv.f, t = f.tipe;
+  const inp = (k, l, type) => `<div><label class="f">${l}</label><input type="${type || 'text'}" data-bind="cv.f.${k}" value="${esc(f[k] || '')}"></div>`;
+  const sel = (k, l, list, blank) => `<div><label class="f">${l}</label><select data-bind="cv.f.${k}">${opt(list, f[k], blank)}</select></div>`;
+  if (t === 'Pendidikan') return sel('jenjang', 'Jenjang', ['D3','S1','S2','S3']) + sel('bidang', 'Bidang', ['Hukum','Akuntansi','Keuangan','Lainnya']) + inp('institusi', 'Institusi') + inp('tahun', 'Tahun lulus', 'number');
+  if (t === 'Sertifikasi') return inp('nama', 'Nama sertifikasi') + sel('bidang', 'Bidang', ['Hukum','Akuntansi','Keuangan','Lainnya']) + inp('terbit', 'Tanggal terbit', 'date') + inp('exp', 'Tanggal kedaluwarsa', 'date');
+  return inp('instansi', 'Instansi') + inp('jabatan', 'Jabatan') + inp('mulai', 'Tanggal mulai', 'date') + inp('selesai', 'Tanggal selesai (kosong = masih berjalan)', 'date') + sel('bidang', 'Bidang', ['Hukum','Akuntansi','Keuangan','Lainnya']) + sel('ref_bdl', 'Klaim sebagai TL di BDL (LPS)? (crosscheck #12)', db.bdl.map(b => [b.id, b.id + ' — ' + b.nama]), 'Bukan / tidak relevan');
+}
+const draftText = d => d.tipe === 'Pendidikan' ? `${d.jenjang} ${d.bidang} — ${d.institusi || '?'} (${d.tahun || '?'})` : d.tipe === 'Sertifikasi' ? `${d.nama || '?'} · ${d.bidang} · terbit ${D.fmt(d.terbit)}` : `${d.jabatan || '?'}, ${d.instansi || '?'} · ${D.fmt(d.mulai)} – ${d.selesai ? D.fmt(d.selesai) : 'sekarang'}${d.ref_bdl ? ' · TL di ' + d.ref_bdl : ''}`;
+function dupOf(d, id) {
+  if (d.tipe === 'Pendidikan') return db.pendidikan.find(e => e.id_orang === id && e.jenjang === d.jenjang && e.bidang === d.bidang && e.institusi.toLowerCase() === (d.institusi || '').toLowerCase());
+  if (d.tipe === 'Sertifikasi') return db.sertifikasi.find(e => e.id_orang === id && e.nama.toLowerCase() === (d.nama || '').toLowerCase() && e.tgl_terbit === d.terbit);
+  return db.pengalaman.find(e => e.id_orang === id && e.instansi.toLowerCase() === (d.instansi || '').toLowerCase() && e.tgl_mulai === d.mulai);
+}
+function cvDiffHTML() {
+  const c = ui.cv, id = c.orang, prevNo = db.versi_cv.filter(v => v.id_orang === id).reduce((m, v) => Math.max(m, v.no), 0);
+  const cur = id ? [...db.pendidikan, ...db.sertifikasi, ...db.pengalaman].filter(e => e.id_orang === id) : [];
+  const nCnt = t => (t === 'P' ? db.pendidikan : t === 'S' ? db.sertifikasi : db.pengalaman).filter(e => e.id_orang === id).length;
+  return `<div class="grid g2"><div class="card" style="margin:0;background:#fafbfd"><b>Versi sebelumnya: ${prevNo ? 'v' + prevNo : '— (orang baru)'}</b><div class="muted">${cur.length} entri tersimpan (${nCnt('P')} pendidikan · ${nCnt('S')} sertifikasi · ${nCnt('G')} pengalaman). Tidak ada yang dihapus/ditimpa.</div></div>
+  <div class="card" style="margin:0"><b>Versi baru: v${prevNo + 1}</b><div class="muted">+${c.draft.length} entri, semuanya berstatus <i>Klaim</i> sampai diverifikasi.</div></div></div>
+  <div class="tw" style="margin-top:10px"><table class="tbl"><tbody>
+  ${cur.slice(0, 4).map(e => `<tr class="diff-same"><td width="30">&nbsp;</td><td>${esc(e.institusi ? ringkas('Pendidikan', e) : e.nama ? ringkas('Sertifikasi', e) : ringkas('Pengalaman', e))}</td><td>${badge(e.status_verifikasi, e.migrasi)}</td></tr>`).join('')}
+  ${cur.length > 4 ? `<tr class="diff-same"><td></td><td colspan="2">… ${cur.length - 4} entri lain tidak berubah</td></tr>` : ''}
+  ${c.draft.map((d, i) => { const dup = id && dupOf(d, id); return `<tr class="diff-add"><td><b style="color:var(--ok)">+</b></td><td>${d.tipe}: ${esc(draftText(d))}${dup ? `<br><span class="badge b-warn">⚠ mirip entri ${dup.id} yang sudah ada — tetap dibuat sebagai entri baru (append-only)</span>` : ''}</td><td>${badge('Klaim')} <button class="btn ghost sm" data-act="cvDel" data-i="${i}">hapus</button></td></tr>`; }).join('') || '<tr><td></td><td colspan="2" class="muted">Belum ada entri baru dalam draft.</td></tr>'}
+  </tbody></table></div>`;
+}
+V.cv = (seg, q) => {
+  const c = ui.cv; if (q.get('orang') && c.qa !== q.get('orang')) { c.orang = q.get('orang'); c.qa = q.get('orang'); c.baru = false; }
+  return ['CV Masuk', `
+  <h1>CV Masuk</h1><p class="sub">Unggah CV (simulasi) lalu input entri baru. Setiap entri otomatis berstatus <b>Klaim</b> dan tercatat sebagai <b>Versi_CV</b> baru.</p>
+  <div class="card"><h2>1. Pemilik CV & berkas</h2><div class="fg">
+    <div><label class="f">Pilih orang</label><select data-bind="cv.orang" ${c.baru ? 'disabled' : ''}>${opt(db.orang.map(o => [o.id_orang, o.id_orang + ' — ' + o.nama]), c.orang, '— pilih —')}</select><label style="font-size:12.5px"><input type="checkbox" style="width:auto" data-bind="cv.baru" ${c.baru ? 'checked' : ''}> Orang baru (belum ada di pool)</label></div>
+    ${c.baru ? `<div><label class="f">Nama lengkap (fiktif)</label><input data-bind="cv.namaBaru" value="${esc(c.namaBaru)}"></div><div><label class="f">NIK (16 digit — akan di-mask)</label><input data-bind="cv.nikBaru" value="${esc(c.nikBaru)}" maxlength="16" placeholder="3201000000000099"></div>` : ''}
+    <div><label class="f">Berkas CV (simulasi, tidak diunggah)</label><input type="file" data-bind="cv.file"><span class="muted">${c.file ? '📄 ' + esc(c.file) : ''}</span></div>
+    <div><label class="f">Catatan perubahan</label><input data-bind="cv.catatan" value="${esc(c.catatan)}" placeholder="mis. Tambah S2 dan pengalaman 2025"></div></div></div>
+  <div class="card"><h2>2. Input entri baru</h2><div class="fg"><div><label class="f">Tipe entri</label><select data-bind="cv.f.tipe">${opt(['Pendidikan','Sertifikasi','Pengalaman'], c.f.tipe)}</select></div></div>
+    <div class="fg">${cvDraftFields()}</div><button class="btn ghost" data-act="cvAdd">+ Tambah ke draft</button></div>
+  <div class="card"><h2>3. Diff terhadap versi sebelumnya</h2>${cvDiffHTML()}
+    <div class="row" style="margin-top:12px"><span class="muted">Penginput: <b>${esc(db.meta.user)}</b></span><span class="sp"></span><button class="btn" data-act="cvSave">Simpan sebagai Versi CV baru</button></div></div>`];
+};
+
+/* ================= ANTRIAN VERIFIKASI ================= */
+V.verifikasi = () => {
+  const f = ui.ver, rows = antrian().filter(x => (!f.tipe || x.tipe === f.tipe) && (!f.status || x.e.status_verifikasi === f.status));
+  return ['Antrian Verifikasi', `
+  <h1>Antrian Verifikasi</h1><p class="sub">Hanya entri <b>Terverifikasi</b> yang dihitung dalam skor kualifikasi. Pengguna aktif: <b>${esc(db.meta.user)}</b> — penilai tidak boleh sama dengan penginput.</p>
+  <div class="card"><div class="fg" style="grid-template-columns:repeat(auto-fit,minmax(170px,240px))"><div><label class="f">Tipe</label><select data-bind="ver.tipe">${opt(['Pendidikan','Sertifikasi','Pengalaman'], f.tipe, 'Semua')}</select></div>
+  <div><label class="f">Status</label><select data-bind="ver.status">${opt(['Klaim','Bukti diterima'], f.status, 'Semua')}</select></div></div>
+  <div class="tw"><table class="tbl"><thead><tr><th>ID</th><th>Tipe</th><th>TL</th><th>Entri</th><th>Penginput</th><th>Status</th><th>Aksi</th></tr></thead><tbody>
+  ${rows.map(({tipe, e}) => { const same = e.penginput === db.meta.user; return `<tr><td class="nowrap muted">${e.id}</td><td>${tipe}</td><td>${linkOrang(e.id_orang, tipe.toLowerCase().replace('pendidikan','pendidikan'))}</td><td>${esc(ringkas(tipe, e))}${e.kategori_usulan ? `<div class="muted">usulan kategori: ${esc(e.kategori_usulan)}</div>` : ''}</td><td>${esc(e.penginput)}${same ? ' <span class="badge b-warn">= Anda</span>' : ''}</td><td>${badge(e.status_verifikasi, e.migrasi)}</td>
+  <td class="nowrap">${e.status_verifikasi === 'Klaim' ? `<button class="btn ghost sm" data-act="bukti" data-id="${e.id}">Bukti diterima</button> ` : ''}<button class="btn ok sm" data-act="verif" data-id="${e.id}">Verifikasi…</button> <button class="btn red sm" data-act="tolak" data-id="${e.id}">Tolak…</button></td></tr>`; }).join('') || '<tr><td colspan="7" class="muted">Antrian kosong 🎉</td></tr>'}</tbody></table></div></div>`];
+};
+function pushStat(e, status, oleh, extra) { e.status_verifikasi = status; e.riwayat_status.push(Object.assign({status, oleh, tgl:TODAY}, extra || {})); }
+
+/* =====================================================================
+   UI (bagian 2): Keputusan & Event, Timeline, Kalkulator, Crosscheck, Parameter, aksi & init
+   ===================================================================== */
+
+/* ================= KEPUTUSAN & EVENT ================= */
+const nextKp = () => 'KP-' + String(db.keputusan.reduce((m, k) => Math.max(m, +k.id.slice(3)), 0) + 1).padStart(2, '0');
+const newRow = hdr => ({jenis:'Angkat', id_orang:'', peran:'Anggota', kode_alasan:'', tgl_kejadian:hdr.tanggal || '', tmt:hdr.tanggal || '', menggantikan_id_orang:'', akhir_masa_tugas:'', tgl_akhir_baru:''});
+function kfInit() { if (!ui.kf) { const hdr = {nomor:'', tanggal:TODAY, jenis:'KE', bdl:'BDL-01', penandatangan:'', mengubah_keputusan_id:'', perihal:''}; ui.kf = {hdr, rows:[newRow(hdr)]}; } }
+const personOpts = sel => opt(db.orang.map(o => [o.id_orang, o.id_orang + ' — ' + o.nama]), sel, '— pilih —');
+function renderKValid() {
+  const el = $('#k-valid'); if (!el || !ui.kf) return;
+  const {E, W} = validasiKeputusan(db, ui.kf.hdr, ui.kf.rows);
+  el.innerHTML = (E.length ? `<div class="note bad"><b>Tidak dapat disimpan (${E.length} kesalahan):</b><ul style="margin:6px 0 0 18px;padding:0">${E.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>` : '<div class="note ok">Validasi lolos.</div>')
+    + (W.length ? `<div class="note warn"><b>Peringatan (${W.length}):</b><ul style="margin:6px 0 0 18px;padding:0">${W.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>` : '');
+}
+function formKeputusan() {
+  kfInit(); const {hdr, rows} = ui.kf;
+  const inBdl = db.orang.filter(o => deriveAssignments(db).some(a => a.id_orang === o.id_orang && a.bdl === hdr.bdl));
+  return ['Input Keputusan', `
+  <p class="muted" style="margin:0 0 8px"><a href="#/keputusan">← Daftar keputusan</a></p><h1>Input Keputusan Baru</h1>
+  <p class="sub">Satu keputusan dapat memuat banyak event. Penugasan <b>tidak diinput</b>; ia diturunkan dari event setelah disimpan.</p>
+  <div class="row" style="margin-bottom:10px"><span class="muted">Isi contoh cepat:</span><button class="btn ghost sm" data-act="kSample" data-v="1">Pengganti TL meninggal (valid)</button><button class="btn ghost sm" data-act="kSample" data-v="2">Pengganti dengan TMT salah (error)</button></div>
+  <div class="card"><h2>Header keputusan</h2><div class="fg">
+    <div><label class="f">Nomor keputusan</label><input data-bind="kf.hdr.nomor" value="${esc(hdr.nomor)}" placeholder="KE-110/FIKTIF/X/2026"></div>
+    <div><label class="f">Tanggal keputusan</label><input type="date" data-bind="kf.hdr.tanggal" value="${hdr.tanggal}"></div>
+    <div><label class="f">Jenis</label><select data-bind="kf.hdr.jenis">${opt(JENIS_KEP, hdr.jenis)}</select></div>
+    <div><label class="f">BDL</label><select data-bind="kf.hdr.bdl">${opt(db.bdl.map(b => [b.id, b.id + ' — ' + b.nama]), hdr.bdl)}</select></div>
+    <div><label class="f">Penandatangan</label><input data-bind="kf.hdr.penandatangan" value="${esc(hdr.penandatangan)}" placeholder="Nama/jabatan (fiktif)"></div>
+    <div><label class="f">Mengubah keputusan (opsional)</label><select data-bind="kf.hdr.mengubah_keputusan_id">${opt(db.keputusan.filter(k => k.bdl === hdr.bdl).map(k => [k.id, k.nomor]), hdr.mengubah_keputusan_id, '— tidak mengubah —')}</select></div>
+    <div style="grid-column:1/-1"><label class="f">Perihal / dasar</label><input data-bind="kf.hdr.perihal" value="${esc(hdr.perihal)}"></div></div></div>
+  <div class="card"><h2>Baris event</h2><div class="tw"><table class="tbl"><thead><tr><th>#</th><th>Jenis</th><th>TL</th><th>Peran</th><th>Kode alasan</th><th>Tgl kejadian</th><th>TMT (berlaku efektif)</th><th>Menggantikan</th><th>Akhir masa tugas / jangka baru</th><th></th></tr></thead><tbody>
+  ${rows.map((r, i) => `<tr><td>${i + 1}</td>
+   <td><select data-bind="kf.rows.${i}.jenis">${opt(JENIS_EVENT, r.jenis)}</select></td>
+   <td><select data-bind="kf.rows.${i}.id_orang">${personOpts(r.id_orang)}</select></td>
+   <td><select data-bind="kf.rows.${i}.peran">${opt(['Ketua','Anggota'], r.peran, '—')}</select></td>
+   <td><select data-bind="kf.rows.${i}.kode_alasan">${opt(KODE.map(k => [k, k]), r.kode_alasan, '—')}</select></td>
+   <td><input type="date" data-bind="kf.rows.${i}.tgl_kejadian" value="${r.tgl_kejadian}"></td>
+   <td><input type="date" data-bind="kf.rows.${i}.tmt" value="${r.tmt}"></td>
+   <td><select data-bind="kf.rows.${i}.menggantikan_id_orang">${opt(inBdl.map(o => [o.id_orang, o.nama]), r.menggantikan_id_orang, '—')}</select></td>
+   <td><input type="date" data-bind="kf.rows.${i}.${r.jenis === 'Perpanjang' ? 'tgl_akhir_baru' : 'akhir_masa_tugas'}" value="${r.jenis === 'Perpanjang' ? r.tgl_akhir_baru : r.akhir_masa_tugas}"></td>
+   <td><button class="btn ghost sm" data-act="kDel" data-i="${i}">✕</button></td></tr>`).join('')}</tbody></table></div>
+   <div class="row" style="margin-top:10px"><button class="btn ghost" data-act="kAdd">+ Tambah baris event</button><span class="sp"></span><span class="muted">Tiga tanggal per event: kejadian · keputusan (header) · TMT</span></div>
+   <p class="muted">Kode alasan 17(1)a–e: label bersifat asumsi demo — lihat <a href="#/parameter">Parameter</a>. Kolom terakhir diisi akhir masa tugas (Angkat/Ganti) atau tanggal akhir jangka waktu baru (Perpanjang).</p></div>
+  <div id="k-valid"></div>
+  <div class="row"><button class="btn" data-act="kSave">Simpan keputusan & event</button><span class="muted">Snapshot honor dibuat & dikunci otomatis untuk event Angkat/Ganti.</span></div>`];
+}
+function detailKeputusan(id) {
+  const k = db.keputusan.find(x => x.id === id); if (!k) return ['Keputusan', '<div class="card">Keputusan tidak ditemukan.</div>'];
+  const sup = supersededSet(db), evs = db.event.filter(e => e.id_keputusan === id), diubahOleh = db.keputusan.filter(x => x.mengubah_keputusan_id === id);
+  return ['Keputusan ' + k.nomor, `
+  <p class="muted" style="margin:0 0 8px"><a href="#/keputusan">← Daftar keputusan</a></p>
+  <div class="card"><h1>${esc(k.nomor)}</h1><div class="kv"><div><small>Jenis</small>${k.jenis}</div><div><small>Tanggal keputusan</small>${D.fmt(k.tanggal)}</div><div><small>BDL</small>${linkBdl(k.bdl)}</div><div><small>Penandatangan</small>${esc(k.penandatangan)}</div>
+  <div><small>Mengubah keputusan</small>${k.mengubah_keputusan_id ? linkKp(k.mengubah_keputusan_id) : '—'}</div><div><small>Diubah oleh</small>${diubahOleh.map(x => linkKp(x.id)).join(', ') || '—'}</div></div>
+  <p style="margin:10px 0 0"><b>Perihal / dasar:</b> ${esc(k.perihal)}</p></div>
+  <div class="card"><h2>Event dalam keputusan ini (${evs.length})</h2><div class="tw"><table class="tbl"><thead><tr><th>Event</th><th>Jenis</th><th>TL</th><th>Peran</th><th>Alasan</th><th>Tgl kejadian</th><th>Tgl keputusan</th><th>TMT</th><th>Selisih</th><th>Keterangan</th><th>Snapshot honor</th><th></th></tr></thead><tbody>
+  ${evs.map(e => { const s = snapByEvent(db, e.id), sel = e.jenis === 'Perpanjang' ? 0 : D.diff(e.tgl_kejadian, e.tmt); const isSup = sup.has(e.id);
+    return `<tr class="${isSup ? 'sup' : ''}"><td class="nowrap">${e.id}</td><td>${e.jenis}</td><td>${linkOrang(e.id_orang)}</td><td>${e.peran || '—'}</td><td>${e.kode_alasan || '—'}</td><td>${D.fmt(e.tgl_kejadian)}</td><td>${D.fmt(k.tanggal)}</td><td>${D.fmt(e.tmt)}</td>
+    <td>${sel ? `<span class="badge ${Math.abs(sel) > 7 ? 'b-warn' : 'b-gray'}">${sel > 0 ? '+' : ''}${sel} hari</span>` : '—'}</td>
+    <td>${e.menggantikan_id_orang ? 'menggantikan ' + linkOrang(e.menggantikan_id_orang) : ''}${e.tgl_akhir_baru ? 'akhir jangka baru ' + D.fmt(e.tgl_akhir_baru) : ''}${e.akhir_masa_tugas ? '<div class="muted">akhir masa tugas ' + D.fmt(e.akhir_masa_tugas) + '</div>' : ''}${isSup ? '<div><span class="badge b-gray">digantikan oleh keputusan pengubah</span></div>' : ''}</td>
+    <td>${s ? `<span class="lock">🔒</span> ${rp(s.honor_final)} <button class="btn ghost sm" data-act="snap" data-id="${e.id}">Rincian</button>` : '<span class="muted">—</span>'}</td>
+    <td><button class="btn ghost sm" data-act="evEdit" data-id="${e.id}">Ubah</button></td></tr>`; }).join('')}</tbody></table></div>
+  <div class="note">Mengubah event akan langsung menggeser <a href="#/timeline/${k.bdl}">Timeline</a> dan <a href="#/crosscheck">Crosscheck</a>. Snapshot honor yang sudah terkunci <b>tidak</b> dihitung ulang (koreksi dilakukan lewat keputusan pengubah).</div></div>`];
+}
+V.keputusan = seg => {
+  if (seg[1] === 'baru') return formKeputusan();
+  if (seg[1]) return detailKeputusan(seg[1]);
+  const sup = supersededSet(db);
+  return ['Keputusan & Event', `
+  <div class="row"><div class="sp"><h1>Keputusan & Event</h1><p class="sub">Sumber kebenaran: keputusan (KADK/KE/DE/DGLIB/putusan) → event → penugasan (turunan).</p></div><a class="btn" href="#/keputusan/baru" style="text-decoration:none">+ Input keputusan baru</a></div>
+  <div class="card"><div class="tw"><table class="tbl"><thead><tr><th>ID</th><th>Nomor</th><th>Tanggal</th><th>Jenis</th><th>BDL</th><th>Event</th><th>Mengubah</th><th>Perihal</th></tr></thead><tbody>
+  ${db.keputusan.slice().sort((a, b) => a.tanggal < b.tanggal ? 1 : -1).map(k => { const evs = db.event.filter(e => e.id_keputusan === k.id); return `<tr><td class="muted">${k.id}</td><td><a href="#/keputusan/${k.id}"><b>${esc(k.nomor)}</b></a></td><td>${D.fmt(k.tanggal)}</td><td><span class="badge b-info">${k.jenis}</span></td><td>${linkBdl(k.bdl)}</td>
+    <td>${evs.length} ${evs.every(e => sup.has(e.id)) ? '<span class="badge b-gray">digantikan</span>' : ''}</td><td>${k.mengubah_keputusan_id ? linkKp(k.mengubah_keputusan_id) : '—'}</td><td>${esc(k.perihal)}</td></tr>`; }).join('')}</tbody></table></div></div>`];
+};
+
+/* ================= TIMELINE ================= */
+const addMonths = (y, m, n) => D.str(Date.UTC(y, m + n, 1));
+function tipEvent(e) {
+  const k = db.keputusan.find(x => x.id === e.id_keputusan);
+  return `<b>${esc(k.nomor)}</b> (${k.jenis})<br>${e.jenis} ${esc(nama(e.id_orang))}${e.peran ? ' · ' + e.peran : ''}<br>Kejadian ${D.fmt(e.tgl_kejadian)} · keputusan ${D.fmt(k.tanggal)} · TMT <b>${D.fmt(e.tmt)}</b><br>Dasar: ${esc(k.perihal)}${e.kode_alasan ? '<br>Alasan: ' + esc(e.kode_alasan) : ''}`;
+}
+V.timeline = seg => {
+  const b = db.bdl.find(x => x.id === seg[1]) || db.bdl.find(x => x.id === ui.tlBdl) || db.bdl[0]; ui.tlBdl = b.id;
+  const A = deriveAssignments(db).filter(a => a.bdl === b.id), evsAll = db.event.filter(e => e.bdl === b.id), evs = activeEvents(db).filter(e => e.bdl === b.id), sup = supersededSet(db);
+  const end = bdlEnd(db, b.id), start = b.mulai, stop = D.max(end, TODAY), total = D.diff(start, stop) + 12;
+  const pos = d => (Math.max(0, Math.min(total, D.diff(start, d))) / total * 100).toFixed(3);
+  const wid = (s, e) => Math.max(0.35, (D.diff(D.max(s, start), e) / total * 100)).toFixed(3);
+  const spanM = total / 30, step = spanM > 30 ? 12 : spanM > 14 ? 3 : 1;
+  let ticks = '', ticksL = '', y = +start.slice(0, 4), m = +start.slice(5, 7) - 1; if (step === 12) m = 0; else if (step === 3) m = Math.floor(m / 3) * 3;
+  for (let i = 0; i < 80; i++) { const d = addMonths(y, m, i * step); if (d > stop) break; if (d < start) continue;
+    ticks += `<div class="gtick" style="left:${pos(d)}%"></div>`; ticksL += `<div class="gtick" style="left:${pos(d)}%"><span>${step === 12 ? d.slice(0, 4) : BULAN[+d.slice(5, 7) - 1] + ' ' + d.slice(2, 4)}</span></div>`; }
+  const grid = ticks + `<div class="gtoday" style="left:${pos(TODAY)}%" data-tip="Hari ini (${D.fmt(TODAY)})"></div><div class="gend" style="left:${pos(end)}%" data-tip="Akhir jangka waktu likuidasi: ${D.fmt(end)}${end !== b.akhir_jangka_waktu_likuidasi ? ' (diperpanjang dari ' + D.fmt(b.akhir_jangka_waktu_likuidasi) + ')' : ''}"></div>`;
+  const mk = (e, cls, d) => `<a class="gmk ${cls}" style="left:${pos(d || e.tmt)}%" href="#/keputusan/${e.id_keputusan}" data-tip="${esc(tipEvent(e))}"></a>`;
+  const people = [...new Set(A.slice().sort((a, b2) => a.tmt_mulai < b2.tmt_mulai ? -1 : 1).map(a => a.id_orang))];
+  const lanes = people.map(pid => {
+    const as = A.filter(a => a.id_orang === pid); let bars = '', mks = '';
+    as.forEach(a => {
+      const cls = a.peran === 'Ketua' ? 'k' : 'a', ae = a.tmt_selesai || TODAY;
+      if (a.tmt_mulai <= TODAY) bars += `<div class="gbar ${cls}" style="left:${pos(a.tmt_mulai)}%;width:${wid(a.tmt_mulai, D.min(ae, TODAY))}%" data-tip="${esc(a.peran + ' · TMT ' + D.fmt(a.tmt_mulai) + ' – ' + (a.tmt_selesai ? D.fmt(a.tmt_selesai) : 'sekarang'))}"></div>`;
+      if (!a.tmt_selesai && end > TODAY) bars += `<div class="gbar ${cls} proj" style="left:${pos(TODAY)}%;width:${wid(TODAY, end)}%" data-tip="Proyeksi sampai akhir jangka waktu"></div>`;
+      a.nonaktif.forEach(n => { bars += `<div class="gbar na" style="left:${pos(n.from)}%;width:${wid(n.from, n.to || TODAY)}%" data-tip="Nonaktif ${D.fmt(n.from)} – ${D.fmt(n.to)} (tanpa honor)"></div>`;
+        const en = db.event.find(x => x.id === n.event), eb = n.event_to && db.event.find(x => x.id === n.event_to); if (en) mks += mk(en, 'na'); if (eb) mks += mk(eb, 'na'); });
+      const em = db.event.find(x => x.id === a.event_mulai), es = a.event_selesai && db.event.find(x => x.id === a.event_selesai);
+      if (em) mks += mk(em, ''); if (es) mks += mk(es, 'end');
+    });
+    return `<div class="glane"><div class="glab"><a href="#/tl/${pid}"><b>${esc(nama(pid))}</b></a><div class="muted">${as.map(a => a.peran).join(' → ')}</div></div><div class="gtrack">${grid}${bars}${mks}</div></div>`;
+  }).join('');
+  // strip jumlah TL aktif
+  const dts = [...new Set([start, ...evs.filter(e => e.jenis !== 'Perpanjang').map(e => e.tmt)])].filter(d => d >= start && d <= stop).sort();
+  const strip = dts.map((d, i) => { const nx = dts[i + 1] || end, act = A.filter(a => isActiveAt(a, d)), n = act.length, k = act.filter(a => a.peran === 'Ketua').length, bad = (n < 2 || n > 9 || k !== 1) && d <= TODAY, fut = d > TODAY;
+    return `<div class="gcnt" style="left:${pos(d)}%;width:${wid(d, nx)}%;background:${bad ? '#dc2626' : '#15803d'};opacity:${fut ? .35 : 1}" data-tip="${D.fmt(d)} →: ${n} TL aktif, ${k} ketua${bad ? ' — MELANGGAR (jumlah 2–9, ketua tepat 1)' : ''}">${n}</div>`; }).join('');
+  const kps = db.keputusan.filter(k => k.bdl === b.id).map(k => `<a class="gmk kp ${k.jenis === 'DGLIB' ? 'ext' : ''}" style="left:${pos(k.tanggal)}%" href="#/keputusan/${k.id}" data-tip="<b>${esc(k.nomor)}</b> (${k.jenis})<br>${D.fmt(k.tanggal)}<br>${esc(k.perihal)}${k.mengubah_keputusan_id ? '<br>Mengubah ' + esc((db.keputusan.find(x => x.id === k.mengubah_keputusan_id) || {}).nomor) : ''}"></a>`).join('');
+  return ['Timeline Penugasan · ' + b.id, `
+  <h1>Timeline Penugasan per BDL</h1><p class="sub">Diturunkan dari tabel <b>Event</b> setiap kali halaman dibuka. Ubah satu event (klik penanda atau lewat <a href="#/keputusan">Keputusan & Event</a>) → bar, hitungan TL aktif, dan crosscheck ikut berubah.</p>
+  <div class="tabs">${db.bdl.map(x => `<a href="#/timeline/${x.id}" class="${x.id === b.id ? 'on' : ''}">${x.id} · kelas ${x.kelas_tl}</a>`).join('')}</div>
+  <div class="card"><div class="row"><div class="sp"><h2 style="margin:0">${esc(b.nama)}</h2><span class="muted">Kelas ${b.kelas_tl} · NPL ${b.persen_npl}% · mulai ${D.fmt(b.mulai)} · akhir ${D.fmt(end)}${end !== b.akhir_jangka_waktu_likuidasi ? ' (diperpanjang)' : ''}</span></div></div>
+  <div class="tw" style="margin-top:10px"><div class="gantt">
+   <div class="glane" style="min-height:26px"><div class="glab"><b>Skala waktu</b></div><div class="gtrack" style="min-height:26px">${ticksL}</div></div>
+   <div class="glane"><div class="glab"><b>Keputusan</b><div class="muted">tanggal terbit</div></div><div class="gtrack">${grid}${kps}</div></div>
+   ${lanes}
+   <div class="glane"><div class="glab"><b>Jumlah TL aktif</b><div class="muted">aturan: 2–9, 1 ketua</div></div><div class="gtrack">${grid}${strip}</div></div></div></div>
+  <div style="margin-top:10px"><span class="lg"><i style="background:var(--ketua)"></i>Ketua</span><span class="lg"><i style="background:var(--anggota)"></i>Anggota</span><span class="lg"><i style="background:repeating-linear-gradient(45deg,#9aa5b5 0 4px,#d6dce6 4px 8px)"></i>Nonaktif</span><span class="lg"><i style="background:#f59e0b"></i>Event mulai</span><span class="lg"><i style="background:#dc2626"></i>Event berhenti</span><span class="lg"><i style="background:#7c3aed"></i>Keputusan</span><span class="lg"><i style="background:#059669"></i>Perpanjangan</span><span class="lg"><i style="border-left:2px dashed #dc2626;width:0;border-radius:0"></i>Hari ini</span></div></div>
+  <div class="card"><h2>Event pembentuk timeline (${evsAll.length})</h2><div class="tw"><table class="tbl"><thead><tr><th>Event</th><th>Keputusan</th><th>Jenis</th><th>TL</th><th>Peran</th><th>Alasan</th><th>Kejadian</th><th>TMT</th><th></th></tr></thead><tbody>
+  ${evsAll.slice().sort((a, b2) => a.tmt < b2.tmt ? -1 : 1).map(e => `<tr class="${sup.has(e.id) ? 'sup' : ''}"><td class="muted">${e.id}</td><td>${linkKp(e.id_keputusan)}</td><td>${e.jenis}</td><td>${linkOrang(e.id_orang)}</td><td>${e.peran || '—'}</td><td>${e.kode_alasan || '—'}</td><td>${D.fmt(e.tgl_kejadian)}</td><td>${D.fmt(e.tmt)}</td><td><button class="btn ghost sm" data-act="evEdit" data-id="${e.id}">Ubah</button></td></tr>`).join('')}</tbody></table></div></div>`];
+};
+
+/* ================= KALKULATOR ================= */
+function calcCtx() {
+  const c = ui.calc, b = db.bdl.find(x => x.id === c.bdl), A = deriveAssignments(db);
+  const replaced = c.mode === 'pengganti' ? c.replaced : null;
+  const aktifBdl = A.filter(a => a.bdl === c.bdl && isActiveAt(a, TODAY));
+  const repAsg = replaced ? A.filter(a => a.id_orang === replaced && a.bdl === c.bdl).sort((x, y) => x.tmt_mulai < y.tmt_mulai ? -1 : 1).pop() : null;
+  const peran = c.peran || (repAsg ? repAsg.peran : 'Anggota');
+  const jumlahDef = aktifBdl.filter(a => a.id_orang !== replaced).length + 1;
+  const lainAsg = A.filter(a => a.id_orang === c.kandidat && a.bdl !== c.bdl && isActiveAt(a, TODAY));
+  const rangkap = c.rangkap === null ? lainAsg.length > 0 : c.rangkap;
+  const sLain = lainAsg.length ? snapOfAssignment(db, lainAsg[0]) : null;
+  const honorLama = c.honorLama !== '' ? +c.honorLama : (sLain ? sLain.honor_final : 0);
+  const base = {bdl:c.bdl, replaced, jumlah:c.jumlah !== '' ? +c.jumlah : jumlahDef, npl:c.npl !== '' ? +c.npl : b.persen_npl, hari:c.hari, rangkap, honorLama, totalOverride:c.totalOverride, bidangUtama:c.bidangUtama};
+  return {c, b, A, replaced, aktifBdl, repAsg, peran, jumlahDef, lainAsg, rangkap, honorLama, base, sLain};
+}
+function calcOut() {
+  const X = calcCtx(), {c, b, A, base} = X;
+  const r = hitungHonor(db, Object.assign({id_orang:c.kandidat, peran:X.peran}, base));
+  const other = hitungHonor(db, Object.assign({id_orang:c.kandidat, peran:X.peran === 'Ketua' ? 'Anggota' : 'Ketua'}, base));
+  const warn = [];
+  const kand = db.orang.find(o => o.id_orang === c.kandidat);
+  if (X.aktifBdl.some(a => a.id_orang === c.kandidat)) warn.push(['bad', `${esc(kand.nama)} sudah aktif di ${b.id}.`]);
+  if (c.mode === 'pengganti' && c.replaced === c.kandidat) warn.push(['bad', 'Kandidat sama dengan TL yang digantikan.']);
+  (kand.relasi_keluarga || []).forEach(rel => { if (rel.jenis === 'TL' && X.aktifBdl.some(a => a.id_orang === rel.ke && a.id_orang !== X.replaced)) warn.push(['bad', `Hubungan keluarga (${esc(rel.hubungan)}) dengan ${esc(nama(rel.ke))}, TL aktif di ${b.id} → dilarang (PLPS Ps.16(2), crosscheck #11).`]); });
+  if (X.lainAsg.length) warn.push(['warn', `${esc(kand.nama)} sedang aktif di ${X.lainAsg.map(a => a.bdl).join(', ')} → penugasan akan menjadi <b>rangkap</b> (butuh dasar 17(1)a & komponen 25%).`]);
+  if (X.replaced && !r.hdRef) warn.push(['warn', 'TL yang digantikan tidak punya snapshot HD; HD memakai median kelas.']);
+  if (r.jumlah < 2 || r.jumlah > 9) warn.push(['bad', `Jumlah TL ${r.jumlah} di luar rentang normal 2–9 (PLPS Ps.15).`]);
+  const step = (n, t, d, cls) => `<tr class="${cls || ''}"><td>${n}</td><td><b>${t}</b></td><td>${d}</td></tr>`;
+  const kr = r.komp.rows.map(x => `<tr><td>${x.bidang}${x === r.komp.utama ? ' <span class="badge b-info">utama</span>' : x === r.komp.p1 ? ' <span class="badge b-gray">pendukung 1</span>' : ' <span class="badge b-gray">pendukung 2</span>'}</td><td>${x.jenjang || '—'}</td><td>${num(x.certYears, 1)} th → L${x.certLevel}</td><td>${num(x.expYears, 1)} th → L${x.expLevel}</td><td>maks ${x.cap || 0}</td><td><b>${x.skor}</b></td></tr>`).join('');
+  const pr = r.peng.rows.map(x => `<tr><td>${x.kategori}</td><td>${num(x.years, 2)} th</td><td>${x.band}</td><td><b>${x.skor}</b>${x.skor === 3 && x.years > 5 ? ' <span class="muted">(maks band)</span>' : ''}</td><td>${pct(x.bobot)}</td><td>${num(x.nilai, 2)}</td></tr>`).join('');
+  const hdTxt = r.hdRef ? `HD milik TL yang digantikan (${esc(nama(c.replaced))}) dari snapshot terkunci ${r.hdRef.event.id}: ${rp(r.hd)}` : `Median kelas ${r.kelas}: ${rp(r.hd)} <span class="badge b-gray">${r.hdk.dummy ? 'DUMMY' : 'contoh PADK'}</span> (min ${rp(r.hdk.min)} · maks ${rp(r.hdk.maks)})`;
+  const html = `
+  ${warn.map(([k, t]) => `<div class="note ${k}">${t}</div>`).join('')}
+  <div class="big"><small>Honorarium bulanan ${esc(kand.nama)} · ${X.peran} · ${esc(b.nama)}</small><div class="n">${rp(r.final)}</div>
+    <small>${X.peran === 'Ketua' ? 'Anggota akan menerima' : 'Ketua akan menerima'} ${rp(other.final)} dengan parameter yang sama</small></div>
+  <div class="card" style="margin-top:14px"><h2>Rincian langkah demi langkah</h2><div class="tw"><table class="tbl steps"><tbody>
+  ${step('1', 'Kelas TL & HD', `Kelas ${r.kelas}. ${hdTxt}<br>Sumber HD: <span class="badge ${r.sumber === 'Mengikuti TL digantikan' ? 'b-info' : 'b-gray'}">${r.sumber}</span>${r.sumber === 'Median kelas' && c.mode === 'pengganti' ? ' <span class="muted">(Pasal 26(4) seharusnya mengikuti TL digantikan)</span>' : ''}`)}
+  ${step('2', 'A–B. Nilai kompetensi (Tabel 3.1–3.2)', `<div class="tw"><table class="tbl"><thead><tr><th>Bidang</th><th>Pendidikan (terverif.)</th><th>Sertifikasi</th><th>Pengalaman bidang</th><th>Batas pendidikan</th><th>Skor</th></tr></thead><tbody>${kr}</tbody></table></div>
+     50% × ${r.komp.utama.skor} + 25% × ${r.komp.p1.skor} + 25% × ${r.komp.p2.skor} = <b>${num(r.komp.nilai, 2)}</b>`)}
+  ${step('3', 'C–D. Nilai pengalaman (Tabel 3.3–3.4)', `<div class="tw"><table class="tbl"><thead><tr><th>Kategori PADK</th><th>Lama (mentah)</th><th>Band</th><th>Skor</th><th>Bobot</th><th>Kontribusi</th></tr></thead><tbody>${pr}</tbody></table></div>Nilai pengalaman = <b>${num(r.peng.nilai, 2)}</b>`)}
+  ${step('4', 'E. FP kualifikasi', `${r.override ? '<span class="badge b-warn">override manual</span> ' : ''}Total = ${r.override ? '' : num(r.komp.nilai, 2) + ' + ' + num(r.peng.nilai, 2) + ' = '}<b>${num(r.total, 2)}</b> → (${num(r.total, 2)} × 0,1) + 0,6 = <b>${pct(r.fpQ)}</b>`, 'res')}
+  ${step('5', 'F. FP kompleksitas NPL (Tabel 4)', `NPL ${r.npl}% → rentang ${r.fN.label} → <b>${pct(r.fN.fp)}</b>`)}
+  ${step('6', 'G. FP jumlah TL (Tabel 5)', `${r.jumlah} TL, ${r.fJ.ket} → <b>${pct(r.fJ.fp)}</b> <span class="muted">· verifikasi dengan Lampiran PADK</span>`)}
+  ${step('7', 'H. FP posisi', `${r.peran === 'Ketua' ? 'Anggota merangkap Ketua' : 'Anggota'} → <b>${pct(r.fpP)}</b>`)}
+  ${step('8', 'Rumus', `${rp(r.hd)} × (100% + [${pct(r.fpQ)} − 100%] + [${pct(r.fN.fp)} − 100%]) × ${pct(r.fJ.fp)} × ${pct(r.fpP)}<br>= ${rp(r.hd)} × ${pct(r.faktor)} × ${pct(r.fJ.fp)} × ${pct(r.fpP)} = <b>${rp(r.honorBulanan)}</b>`, 'res')}
+  ${step('9', 'I. Daerah terpencil', r.hari ? `${r.hari} hari × Rp200.000 = ${rp(r.tambahanMentah)}; plafon 25% = ${rp(r.plafon)} → tambahan <b>${rp(r.tambahan)}</b>${r.tambahanMentah > r.plafon ? ' <span class="badge b-warn">dibatasi plafon</span>' : ''}` : 'Tidak ada (0 hari)')}
+  ${step('10', 'J. Rangkap / BDL baru (Ps.26(3))', r.rangkap ? `100% honor BDL ini ${rp(r.honorBdl)} + 25% × honor BDL sebelumnya ${rp(r.lama)} = <b>${rp(r.final)}</b>` : 'Tidak diterapkan')}
+  </tbody></table></div></div>
+  <div class="card"><h2>Entri yang belum dihitung (bukan "Terverifikasi")</h2>${r.belum.length ? `<ul style="margin:0 0 0 18px;padding:0">${r.belum.map(x => `<li>${esc(x)}</li>`).join('')}</ul><p class="muted">Setelah diverifikasi di <a href="#/verifikasi">Antrian Verifikasi</a>, skor di atas akan berubah.</p>` : '<p class="muted">Semua entri sudah terverifikasi / tidak ada klaim.</p>'}</div>`;
+  // perbandingan kandidat pool
+  const pool = db.orang.filter(o => statusPool(db, A, o) === 'Tersedia');
+  const comp = pool.map(o => ({o, r:hitungHonor(db, Object.assign({}, base, {id_orang:o.id_orang, peran:X.peran, rangkap:false, honorLama:0}))}));
+  const cmp = `<div class="card"><h2>Perbandingan kandidat pool (status Tersedia)</h2><p class="muted">HD, NPL, jumlah TL, dan peran sama dengan pengaturan di atas. Baris dengan <span class="tie" style="padding:0 5px">total skor identik</span> menghasilkan honor identik walau profil pengalamannya berbeda (efek band).</p><div class="tw"><table class="tbl"><thead><tr><th>Kandidat</th><th>Kompetensi</th><th>Pengalaman</th><th>Total</th><th>FP kual.</th><th>Lama pengalaman mentah (Liq.Perb / Liq.NonBank / Perb / Lain)</th><th>Skor konversi</th><th class="right">Honor</th></tr></thead><tbody>
+  ${comp.map(({o, r: q}) => { const tie = comp.some(z => z.o !== o && Math.abs(z.r.total - q.total) < 1e-9); return `<tr class="${tie ? 'tie' : ''}"><td><a href="#/tl/${o.id_orang}">${esc(o.nama)}</a></td><td>${num(q.komp.nilai)}</td><td>${num(q.peng.nilai)}</td><td><b>${num(q.total)}</b>${tie ? ' ≙' : ''}</td><td>${pct(q.fpQ)}</td><td>${q.peng.rows.map(x => num(x.years, 1) + ' th').join(' / ')}</td><td>${q.peng.rows.map(x => x.skor).join(' / ')}</td><td class="right"><b>${rp(q.final)}</b></td></tr>`; }).join('')}</tbody></table></div></div>`;
+  return html + cmp;
+}
+V.kalkulator = () => {
+  const X = calcCtx(), {c, b, A} = X;
+  const inBdl = db.orang.filter(o => A.some(a => a.id_orang === o.id_orang && a.bdl === c.bdl));
+  const lbl = o => { const a = A.filter(x => x.id_orang === o.id_orang && x.bdl === c.bdl).pop(); return `${o.nama} (${a.peran}, ${a.status}${a.tmt_selesai ? ' ' + D.fmt(a.tmt_selesai) : ''})`; };
+  return ['Kalkulator / Simulasi Honor', `
+  <h1>Kalkulator / Simulasi Honor</h1><p class="sub">PADK 1/ADK3/2024 Lampiran. Hanya entri <b>Terverifikasi</b> dihitung. Hasil simulasi tidak disimpan (snapshot hanya dibuat saat keputusan disimpan).</p>
+  <div class="row" style="margin-bottom:10px"><button class="btn ghost" data-act="calcTest">Muat contoh uji PADK (kelas C, kualifikasi 3,5 → 95%, NPL 85%, 5 TL)</button><button class="btn ghost" data-act="calcDeath">Skenario TL meninggal (BDL-01)</button></div>
+  <div class="card"><div class="fg">
+    <div><label class="f">BDL</label><select data-bind="calc.bdl">${opt(db.bdl.map(x => [x.id, x.id + ' — ' + x.nama + ' (kelas ' + x.kelas_tl + ')']), c.bdl)}</select></div>
+    <div><label class="f">Kasus</label><select data-bind="calc.mode">${opt([['pengganti','Kandidat PENGGANTI TL tertentu (Ps.26(4))'],['baru','Kandidat baru (HD = median kelas)']], c.mode)}</select></div>
+    ${c.mode === 'pengganti' ? `<div><label class="f">TL yang digantikan</label><select data-bind="calc.replaced">${opt(inBdl.map(o => [o.id_orang, lbl(o)]), c.replaced)}</select></div>` : ''}
+    <div><label class="f">Kandidat</label><select data-bind="calc.kandidat">${opt(db.orang.map(o => [o.id_orang, o.nama + ' — ' + statusPool(db, A, o)]), c.kandidat)}</select></div>
+    <div><label class="f">Peran</label><select data-bind="calc.peran">${opt([['', 'Otomatis (' + X.peran + ')'], 'Anggota', 'Ketua'], c.peran)}</select></div>
+    <div><label class="f">Jumlah TL (default ${X.jumlahDef})</label><input type="number" min="1" data-bind="calc.jumlah" value="${esc(c.jumlah)}" placeholder="${X.jumlahDef}"></div>
+    <div><label class="f">% NPL (default ${b.persen_npl})</label><input type="number" min="0" max="100" data-bind="calc.npl" value="${esc(c.npl)}" placeholder="${b.persen_npl}"></div>
+    <div><label class="f">Hari daerah terpencil</label><input type="number" min="0" data-bind="calc.hari" value="${esc(c.hari)}" placeholder="0"></div>
+    <div><label class="f">Override total nilai kualifikasi (uji)</label><input type="number" step="0.01" data-bind="calc.totalOverride" value="${esc(c.totalOverride)}" placeholder="kosong = dari data"></div>
+    <div><label class="f">Bidang utama kompetensi</label><select data-bind="calc.bidangUtama">${opt([['auto', 'Otomatis (skor tertinggi)'], ...BIDANG3], c.bidangUtama)}</select></div>
+    <div><label class="f">Honor BDL sebelumnya (untuk rangkap)</label><input type="number" data-bind="calc.honorLama" value="${esc(c.honorLama)}" placeholder="${Math.round(X.honorLama)}"></div>
+    <div><label class="f">Pasal 26 ayat 3 — TL di BDL baru</label><label style="font-size:13px"><input type="checkbox" style="width:auto" data-bind="calc.rangkap" ${X.rangkap ? 'checked' : ''}> 100% honor BDL baru + 25% honor BDL sebelumnya</label></div></div>
+  ${X.rangkap ? '<div class="note warn"><b>Peringatan interpretasi:</b> Interpretasi belum dikonfirmasi bila TL sudah diberhentikan di BDL lama — konfirmasi ke senior sebelum dijadikan aturan baku.</div>' : ''}</div>
+  <div id="calc-out">${calcOut()}</div>`];
+};
+
+/* ================= CROSSCHECK ================= */
+V.crosscheck = () => {
+  const all = crosscheck(db), f = ui.cc, rows = all.filter(c => (!f.sev || c.sev === f.sev) && (!f.rule || String(c.rule) === f.rule));
+  const cnt = s => all.filter(c => c.sev === s).length;
+  return ['Crosscheck', `
+  <h1>Crosscheck anomali</h1><p class="sub">Dijalankan otomatis pada data Event/Penugasan setiap halaman dibuka (13 aturan). Klik tautan untuk membuka data terkait.</p>
+  <div class="row" style="margin-bottom:12px"><span class="badge b-bad">Tinggi ${cnt('Tinggi')}</span><span class="badge b-warn">Sedang ${cnt('Sedang')}</span><span class="badge b-gray">Rendah ${cnt('Rendah')}</span><span class="sp"></span>
+   <div style="width:160px"><select data-bind="cc.sev">${opt(['Tinggi','Sedang','Rendah'], f.sev, 'Semua tingkat')}</select></div>
+   <div style="width:340px"><select data-bind="cc.rule">${opt(Object.keys(RULE_TEXT).map(k => [k, '#' + k + ' ' + RULE_TEXT[k]]), f.rule, 'Semua aturan')}</select></div></div>
+  <div class="card"><div class="tw"><table class="tbl"><thead><tr><th>Tingkat</th><th>Aturan</th><th>BDL</th><th>TL</th><th>Temuan</th><th></th></tr></thead><tbody>
+  ${rows.map(c => `<tr><td>${sevBadge(c.sev)}</td><td class="nowrap"><span class="badge b-gray" title="${esc(RULE_TEXT[c.rule])}">#${c.rule}</span></td><td>${c.bdl ? linkBdl(c.bdl).replace(/>.*<\/a>/, '>' + c.bdl + '</a>') : '—'}</td><td>${c.orang ? linkOrang(c.orang) : '—'}</td><td><b>${esc(c.judul)}</b><br><span class="muted">${esc(c.detail)}</span></td><td class="nowrap"><a class="btn ghost sm" style="text-decoration:none" href="${c.link}">Buka data →</a></td></tr>`).join('') || '<tr><td colspan="6" class="muted">Tidak ada anomali.</td></tr>'}</tbody></table></div></div>
+  <div class="card"><h2>Daftar aturan</h2><div class="tw"><table class="tbl"><tbody>${Object.keys(RULE_TEXT).map(k => `<tr><td>#${k}</td><td>${esc(RULE_TEXT[k])}</td><td>${all.filter(c => c.rule === +k).length} temuan</td></tr>`).join('')}</tbody></table></div></div>`];
+};
+
+/* ================= PARAMETER ================= */
+V.parameter = () => {
+  const tb = (tabel, heads, fn, judul, cat) => { const rows = db.parameter.filter(p => p.tabel === tabel); return `<div class="card"><h2>${judul}</h2>${cat ? `<p class="muted" style="margin-top:-6px">${cat}</p>` : ''}<div class="tw"><table class="tbl"><thead><tr>${heads.map(h => `<th>${h}</th>`).join('')}<th>Berlaku mulai</th><th>Berlaku sampai</th></tr></thead><tbody>${rows.map(p => `<tr>${fn(p).map(c => `<td>${c}</td>`).join('')}<td>${D.fmt(p.berlaku_mulai)}</td><td>${p.berlaku_sampai ? D.fmt(p.berlaku_sampai) : '<span class="badge b-ok">masih berlaku</span>'}</td></tr>`).join('')}</tbody></table></div></div>`; };
+  return ['Parameter PADK', `
+  <h1>Parameter acuan PADK 1/ADK3/2024</h1><p class="sub">Read-only. Baris konfigurasi bersifat <b>immutable</b>: perubahan regulasi dicatat dengan menutup versi lama (berlaku_sampai) dan menambah baris baru.</p>
+  ${tb('HD_KELAS', ['Kelas', 'Min', 'Median (HD)', 'Maks', 'Keterangan'], p => [p.kunci, rp(p.nilai.min), '<b>' + rp(p.nilai.median) + '</b>', rp(p.nilai.maks), p.nilai.dummy ? '<span class="badge b-warn">DUMMY</span>' : '<span class="badge b-info">contoh PADK</span>'], 'Honorarium dasar per kelas TL (Lampiran)', 'Hanya kelas C yang berasal dari contoh PADK; kelas lain angka karangan untuk demo.')}
+  ${tb('FP_NPL', ['% NPL', 'FP kompleksitas'], p => [p.kunci, pct(p.nilai.fp)], 'Tabel 4 — FP kompleksitas (NPL)')}
+  ${tb('FP_JUMLAH', ['Kelas', 'Rentang normal', 'Kurang dari min', 'Lebih dari maks'], p => [p.kunci, p.nilai.min + ' – ' + p.nilai.maks, p.nilai.kurang_berlaku ? pct(p.nilai.fp_kurang) : '— (tidak berlaku)', p.nilai.lebih_berlaku ? pct(p.nilai.fp_lebih) : '— (tidak berlaku)'], 'Tabel 5 — FP jumlah anggota TL', 'Catatan: verifikasi dengan Lampiran PADK.')}
+  ${tb('FP_POSISI', ['Posisi', 'FP'], p => [p.kunci === 'Ketua' ? 'Anggota merangkap Ketua' : p.kunci, pct(p.nilai.fp)], 'FP posisi')}
+  ${tb('SKOR_KOMPETENSI', ['Skor', 'Syarat'], p => [p.kunci, esc(p.nilai.teks)], 'Tabel 3.1 — Skor kompetensi utama')}
+  ${tb('SKOR_PENGALAMAN', ['Lama pengalaman', 'Skor'], p => [p.kunci, p.nilai.skor], 'Tabel 3.3 — Skor pengalaman')}
+  ${tb('BOBOT_PENGALAMAN', ['Tabel', 'Bobot per kategori'], p => [p.kunci, Object.entries(p.nilai).map(([k, v]) => `${esc(k)}: ${pct(v)}`).join('<br>')], 'Tabel 3.4 — Bobot nilai pengalaman')}
+  ${tb('BOBOT_KOMPETENSI', ['Tabel', 'Bobot'], p => [p.kunci, `utama ${pct(p.nilai.utama)} · pendukung ${pct(p.nilai.pendukung1)} + ${pct(p.nilai.pendukung2)}`], 'Tabel 3.2 — Bobot nilai kompetensi')}
+  ${tb('KUALIFIKASI', ['Parameter', 'Nilai'], p => [p.kunci, `(total × ${p.nilai.faktor}) + ${p.nilai.konstanta}`], 'Rumus FP kualifikasi')}
+  ${tb('TERPENCIL', ['Parameter', 'Nilai'], p => [p.kunci, `${rp(p.nilai.per_hari)} / hari, maks ${pct(p.nilai.maks_persen)} honorarium bulanan`], 'Tambahan daerah terpencil')}
+  ${tb('RANGKAP', ['Dasar', 'Komponen BDL sebelumnya'], p => [p.kunci, pct(p.nilai.persen)], 'Pasal 26 ayat 3 — TL di BDL baru', 'Interpretasi belum dikonfirmasi bila TL sudah diberhentikan di BDL lama.')}
+  ${tb('HARI_RAYA', ['Hari raya', 'Tanggal'], p => [p.kunci, D.fmt(p.nilai.tgl)], 'Hari raya (untuk crosscheck THR)')}
+  <div class="card"><h2>Kode alasan 17(1)a–e</h2><table class="tbl"><tbody>${KODE.map(k => `<tr><td><b>${k}</b></td><td>${esc(KODE_LABEL[k])}</td></tr>`).join('')}</tbody></table><p class="muted">Label diberikan sebagai asumsi demo — sesuaikan dengan teks PLPS yang berlaku.</p></div>`];
+};
+
+/* ================= AKSI ================= */
+const A_ = {};
+A_.menu = () => $('#side').classList.toggle('open');
+A_.reset = () => { if (!confirm('Reset semua data demo ke kondisi awal?')) return; try { localStorage.removeItem(LS_KEY); } catch (e) {} db = seedDB(); save(); ui.kf = null; ui.cv.draft = []; ui.cv.orang = ''; ui.cv.qa = ''; ui.calc.totalOverride = ''; closeModal(); location.hash = '#/dashboard'; render(); toast('Data demo dikembalikan ke kondisi awal', 'ok'); };
+A_.closeModal = () => closeModal();
+A_.snap = el => {
+  const s = snapByEvent(db, el.dataset.id), e = db.event.find(x => x.id === el.dataset.id), k = db.keputusan.find(x => x.id === e.id_keputusan); if (!s) return;
+  openModal(`<h2>🔒 Snapshot honor — ${esc(nama(e.id_orang))} · ${e.bdl}</h2><p class="muted">Dikunci saat keputusan ${esc(k.nomor)} terbit (${D.fmt(s.tgl_dikunci)}). Tidak dapat diedit; koreksi lewat keputusan pengubah.</p>
+  <table class="tbl"><tbody>${[['id_event', s.id_event], ['kelas_tl', s.kelas_tl], ['hd_acuan', rp(s.hd_acuan)], ['sumber_hd', s.sumber_hd], ['skor_kompetensi', num(s.skor_kompetensi)], ['skor_pengalaman', num(s.skor_pengalaman)], ['total kualifikasi', num(s.total_kualifikasi)], ['fp_kualifikasi', pct(s.fp_kualifikasi)], ['fp_npl', pct(s.fp_npl)], ['fp_jumlah (' + s.jumlah_tl + ' TL)', pct(s.fp_jumlah)], ['fp_posisi', pct(s.fp_posisi)], ['daerah_terpencil (hari)', s.daerah_terpencil], ['komponen_rangkap_25', s.komponen_rangkap_25 ? 'Ya — ' + rp(s.nilai_rangkap_25) : 'Tidak'], ['honor_final', '<b>' + rp(s.honor_final) + '</b>'], ['terkunci', '🔒 ya']].map(([a, b]) => `<tr><td class="muted">${a}</td><td>${b}</td></tr>`).join('')}</tbody></table>
+  <h3>Rincian skor saat dikunci</h3><p class="muted">${s.rincian.komp.map(x => `${x.b}: ${x.j || '—'}, sert. ${x.c} th, pengalaman ${x.e} th → skor ${x.s}`).join('<br>')}<br><br>${s.rincian.peng.map(x => `${x.k}: ${x.y} th → skor ${x.s}`).join('<br>')}</p>
+  <div class="mfoot"><button class="btn" data-act="closeModal">Tutup</button></div>`, true);
+};
+A_.diff = el => {
+  const id = el.dataset.id, no = +el.dataset.no, all = [...db.pendidikan.map(e => ['Pendidikan', e]), ...db.sertifikasi.map(e => ['Sertifikasi', e]), ...db.pengalaman.map(e => ['Pengalaman', e])].filter(([t, e]) => e.id_orang === id);
+  const prev = all.filter(([t, e]) => e.id_versi < no), add = all.filter(([t, e]) => e.id_versi === no);
+  openModal(`<h2>Diff Versi CV v${no} vs v${no - 1 || '—'}</h2><p class="muted">${prev.length} entri dari versi sebelumnya tidak berubah (append-only).</p><table class="tbl"><tbody>
+   ${add.map(([t, e]) => `<tr class="diff-add"><td><b style="color:var(--ok)">+</b></td><td>${t}: ${esc(ringkas(t, e))}</td><td>${badge(e.status_verifikasi, e.migrasi)}</td></tr>`).join('') || '<tr><td colspan="3" class="muted">Versi awal (migrasi) — semua entri adalah entri baru.</td></tr>'}
+   ${no > 1 ? prev.slice(0, 5).map(([t, e]) => `<tr class="diff-same"><td></td><td>${t}: ${esc(ringkas(t, e))}</td><td>${badge(e.status_verifikasi, e.migrasi)}</td></tr>`).join('') : ''}</tbody></table><div class="mfoot"><button class="btn" data-act="closeModal">Tutup</button></div>`, true);
+};
+A_.upDok = el => {
+  const f = $('#dk-file').files[0]; if (!f) { toast('Pilih file dulu (simulasi)', 'bad'); return; }
+  const ref = $('#dk-ref').value; db.dokumen.push({id:nid('DK'), id_orang:el.dataset.id, jenis:$('#dk-jenis').value, nama_file:f.name, tgl_unggah:TODAY, ref});
+  if (ref) { const {e} = findEntry(ref); if (e && e.status_verifikasi === 'Klaim') pushStat(e, 'Bukti diterima', db.meta.user); }
+  save(); toast('Dokumen tercatat' + (ref ? ' dan entri terkait berstatus Bukti diterima' : ''), 'ok'); refresh();
+};
+/* CV masuk */
+A_.cvAdd = () => {
+  const f = ui.cv.f, t = f.tipe, miss = t === 'Pendidikan' ? !f.institusi || !f.tahun : t === 'Sertifikasi' ? !f.nama || !f.terbit : !f.instansi || !f.jabatan || !f.mulai;
+  if (miss) { toast('Lengkapi kolom wajib entri', 'bad'); return; }
+  ui.cv.draft.push(Object.assign({}, f)); ui.cv.f = {tipe:t, jenjang:'S1', bidang:'Hukum'}; refresh();
+};
+A_.cvDel = el => { ui.cv.draft.splice(+el.dataset.i, 1); refresh(); };
+A_.cvSave = () => {
+  const c = ui.cv; let id = c.orang;
+  if (c.baru) { if (!c.namaBaru.trim()) { toast('Nama orang baru wajib diisi', 'bad'); return; } }
+  else if (!id) { toast('Pilih orang pemilik CV', 'bad'); return; }
+  if (!c.file) { toast('Pilih berkas CV (simulasi)', 'bad'); return; }
+  if (!c.draft.length) { toast('Tambahkan minimal satu entri ke draft', 'bad'); return; }
+  if (c.baru) {
+    id = 'TL-' + String(db.orang.length + 1).padStart(3, '0'); const nik = (c.nikBaru.replace(/\D/g, '') + '0000000000000000').slice(0, 16);
+    db.orang.push({id_orang:id, nama:c.namaBaru.trim(), nik_masked:nik.slice(0, 4) + '••••••••' + nik.slice(12), npwp_masked:'—', wni:'WNI', kontak:'—', status_pool:'Dalam Evaluasi', relasi_keluarga:[]});
+  }
+  const no = db.versi_cv.filter(v => v.id_orang === id).reduce((m, v) => Math.max(m, v.no), 0) + 1, user = db.meta.user;
+  const baseE = () => ({id_orang:id, status_verifikasi:'Klaim', penginput:user, id_versi:no, migrasi:false, riwayat_status:[{status:'Klaim', oleh:user, tgl:TODAY}]});
+  c.draft.forEach(d => {
+    if (d.tipe === 'Pendidikan') db.pendidikan.push(Object.assign({id:nid('PD'), jenjang:d.jenjang, bidang:d.bidang, institusi:d.institusi, tahun_lulus:+d.tahun, sumber:'CV'}, baseE()));
+    else if (d.tipe === 'Sertifikasi') db.sertifikasi.push(Object.assign({id:nid('SR'), nama:d.nama, bidang:d.bidang, tgl_terbit:d.terbit, tgl_kedaluwarsa:d.exp || null}, baseE()));
+    else db.pengalaman.push(Object.assign({id:nid('PG'), instansi:d.instansi, jabatan:d.jabatan, tgl_mulai:d.mulai, tgl_selesai:d.selesai || null, kategori_usulan:null, kategori_padk:null, bidang:d.bidang, penilai:null, alasan_klasifikasi:null, ref_bdl:d.ref_bdl || null}, baseE()));
+  });
+  const vid = 'CV-' + id.slice(3) + '-' + no;
+  db.versi_cv.push({id:vid, id_orang:id, no, tgl_diterima:TODAY, catatan_perubahan:c.catatan || '(tanpa catatan)', file:c.file});
+  db.dokumen.push({id:nid('DK'), id_orang:id, jenis:'CV', nama_file:c.file, tgl_unggah:TODAY, ref:vid});
+  save(); toast(`Versi CV v${no} tersimpan: ${c.draft.length} entri berstatus Klaim`, 'ok');
+  ui.cv = {orang:'', baru:false, namaBaru:'', nikBaru:'', file:'', catatan:'', draft:[], f:{tipe:'Pendidikan', jenjang:'S1', bidang:'Hukum'}, qa:''};
+  location.hash = '#/tl/' + id + '/versi';
+};
+/* verifikasi */
+A_.bukti = el => { const {e} = findEntry(el.dataset.id); pushStat(e, 'Bukti diterima', db.meta.user); save(); toast('Status: Bukti diterima', 'ok'); refresh(); };
+A_.verif = el => {
+  const {e, tipe} = findEntry(el.dataset.id), same = e.penginput === db.meta.user;
+  const peng = tipe === 'Pengalaman';
+  openModal(`<h2>Verifikasi ${tipe} ${e.id}</h2><p>${esc(ringkas(tipe, e))}</p><p class="muted">Penginput: <b>${esc(e.penginput)}</b> · Verifikator aktif: <b>${esc(db.meta.user)}</b></p>
+  ${same ? '<div class="note bad">Anda adalah penginput entri ini — ganti pengguna aktif (kanan atas) agar dapat memverifikasi.</div>' : ''}
+  ${peng ? `<div class="fg"><div><label class="f">Kategori PADK (wajib)</label><select id="vf-kat">${opt(KAT, e.kategori_usulan, '— pilih —')}</select></div>
+   <div><label class="f">Bidang</label><select id="vf-bidang">${opt(['Hukum','Akuntansi','Keuangan','Lainnya'], e.bidang)}</select></div>
+   <div><label class="f">Penilai (wajib; ≠ penginput)</label><select id="vf-penilai">${opt(STAFF.map(s => s.nama), db.meta.user, '— pilih —')}</select></div></div>
+   <label class="f">Alasan klasifikasi (wajib)</label><textarea id="vf-alasan" rows="3" placeholder="Mis. uraian tugas pada SK menunjukkan kegiatan likuidasi bank yang dicabut izinnya"></textarea>` : '<p class="muted">Dokumen pendukung diperiksa, lalu entri ditandai Terverifikasi dan mulai dihitung dalam skor.</p>'}
+  <div id="vf-err"></div><div class="mfoot"><button class="btn ghost" data-act="closeModal">Batal</button><button class="btn ok" data-act="doVerif" data-id="${e.id}">Verifikasi</button></div>`);
+};
+A_.doVerif = el => {
+  const {e, tipe} = findEntry(el.dataset.id), err = m => { $('#vf-err').innerHTML = `<div class="note bad">${m}</div>`; };
+  if (tipe === 'Pengalaman') {
+    const kat = $('#vf-kat').value, pen = $('#vf-penilai').value, al = $('#vf-alasan').value.trim();
+    if (!kat) return err('Kategori PADK wajib dipilih.'); if (!pen) return err('Penilai wajib diisi.'); if (al.length < 10) return err('Alasan klasifikasi wajib diisi (min. 10 karakter).');
+    if (pen === e.penginput) return err('Penilai tidak boleh sama dengan penginput (' + esc(e.penginput) + ').');
+    e.kategori_padk = kat; e.bidang = $('#vf-bidang').value; e.penilai = pen; e.alasan_klasifikasi = al; pushStat(e, 'Terverifikasi', pen);
+  } else {
+    if (db.meta.user === e.penginput) return err('Verifikator tidak boleh sama dengan penginput.');
+    pushStat(e, 'Terverifikasi', db.meta.user);
+  }
+  save(); closeModal(); toast(e.id + ' terverifikasi — kini dihitung dalam skor kualifikasi', 'ok'); refresh();
+};
+A_.tolak = el => { const {e, tipe} = findEntry(el.dataset.id); openModal(`<h2>Tolak ${tipe} ${e.id}</h2><p>${esc(ringkas(tipe, e))}</p><label class="f">Alasan penolakan (wajib)</label><textarea id="tk-alasan" rows="3"></textarea><div id="vf-err"></div><div class="mfoot"><button class="btn ghost" data-act="closeModal">Batal</button><button class="btn red" data-act="doTolak" data-id="${e.id}">Tolak</button></div>`); };
+A_.doTolak = el => { const {e} = findEntry(el.dataset.id), a = $('#tk-alasan').value.trim(); if (a.length < 5) { $('#vf-err').innerHTML = '<div class="note bad">Alasan penolakan wajib diisi.</div>'; return; } pushStat(e, 'Ditolak', db.meta.user, {alasan:a}); save(); closeModal(); toast(e.id + ' ditolak', 'ok'); refresh(); };
+/* keputusan */
+A_.kAdd = () => { ui.kf.rows.push(newRow(ui.kf.hdr)); refresh(); };
+A_.kDel = el => { ui.kf.rows.splice(+el.dataset.i, 1); refresh(); };
+A_.kSample = el => {
+  const bad = el.dataset.v === '2';
+  ui.kf = {hdr:{nomor:'KE-110/FIKTIF/X/2026', tanggal:'2026-10-08', jenis:'KE', bdl:'BDL-01', penandatangan:'Kepala Eksekutif (fiktif)', mengubah_keputusan_id:'', perihal:'Penggantian TL yang meninggal dunia'},
+    rows:[Object.assign(newRow({}), {jenis:'Ganti', id_orang:'TL-011', peran:'Anggota', tgl_kejadian:'2026-10-08', tmt:bad ? '2026-09-01' : '2026-10-08', menggantikan_id_orang:'TL-002', akhir_masa_tugas:'2027-03-02'})]};
+  refresh();
+};
+A_.kSave = () => {
+  const kf = ui.kf, {E} = validasiKeputusan(db, kf.hdr, kf.rows); if (E.length) { toast('Masih ada ' + E.length + ' kesalahan validasi', 'bad'); renderKValid(); return; }
+  const id = nextKp(), h = kf.hdr;
+  db.keputusan.push({id, nomor:h.nomor, tanggal:h.tanggal, jenis:h.jenis, bdl:h.bdl, penandatangan:h.penandatangan, perihal:h.perihal || '', mengubah_keputusan_id:h.mengubah_keputusan_id || null});
+  const evs = kf.rows.map(r => ({id:nid('EV'), id_keputusan:id, id_orang:r.jenis === 'Perpanjang' ? null : r.id_orang, bdl:h.bdl, jenis:r.jenis, peran:r.peran || '', kode_alasan:r.kode_alasan || '', tgl_kejadian:r.tgl_kejadian, tmt:r.tmt, menggantikan_id_orang:r.jenis === 'Ganti' ? r.menggantikan_id_orang : null, akhir_masa_tugas:r.akhir_masa_tugas || null, tgl_akhir_baru:r.tgl_akhir_baru || null}));
+  db.event.push(...evs);
+  evs.filter(e => e.jenis === 'Angkat' || e.jenis === 'Ganti').sort((a, b) => a.tmt < b.tmt ? -1 : 1).forEach(e => db.snapshot.push(buatSnapshot(db, e, {})));
+  save(); ui.kf = null; toast('Keputusan ' + h.nomor + ' tersimpan dengan ' + evs.length + ' event; snapshot honor terkunci', 'ok'); location.hash = '#/keputusan/' + id;
+};
+A_.evEdit = el => {
+  const e = db.event.find(x => x.id === el.dataset.id), s = snapByEvent(db, e.id), A = deriveAssignments(db);
+  const inBdl = db.orang.filter(o => A.some(a => a.id_orang === o.id_orang && a.bdl === e.bdl));
+  openModal(`<h2>Ubah event ${e.id} — ${e.jenis} ${esc(nama(e.id_orang))}</h2><p class="muted">Keputusan ${linkKp(e.id_keputusan)} · ${e.bdl}. Perubahan langsung memengaruhi timeline & crosscheck.</p>
+  ${s ? '<div class="note warn">🔒 Snapshot honor event ini terkunci dan <b>tidak</b> dihitung ulang.</div>' : ''}
+  <div class="fg"><div><label class="f">Jenis</label><select id="ee-jenis">${opt(JENIS_EVENT, e.jenis)}</select></div><div><label class="f">Peran</label><select id="ee-peran">${opt(['Ketua','Anggota'], e.peran, '—')}</select></div>
+  <div><label class="f">Kode alasan</label><select id="ee-kode">${opt(KODE, e.kode_alasan, '—')}</select></div>
+  <div><label class="f">Tgl kejadian</label><input type="date" id="ee-kej" value="${e.tgl_kejadian}"></div><div><label class="f">TMT</label><input type="date" id="ee-tmt" value="${e.tmt}"></div>
+  <div><label class="f">Menggantikan</label><select id="ee-ganti">${opt(inBdl.map(o => [o.id_orang, o.nama]), e.menggantikan_id_orang, '—')}</select></div>
+  <div><label class="f">Akhir masa tugas</label><input type="date" id="ee-akhir" value="${e.akhir_masa_tugas || ''}"></div><div><label class="f">Akhir jangka baru (Perpanjang)</label><input type="date" id="ee-baru" value="${e.tgl_akhir_baru || ''}"></div></div>
+  <div id="vf-err"></div><div class="mfoot">${s ? '' : `<button class="btn red" data-act="evDel" data-id="${e.id}">Hapus event</button>`}<span class="sp"></span><button class="btn ghost" data-act="closeModal">Batal</button><button class="btn" data-act="evSave" data-id="${e.id}">Simpan perubahan</button></div>`, true);
+};
+A_.evSave = el => {
+  const e = db.event.find(x => x.id === el.dataset.id), kp = db.keputusan.find(x => x.id === e.id_keputusan);
+  const row = {id:e.id, jenis:$('#ee-jenis').value, id_orang:e.id_orang, peran:$('#ee-peran').value, kode_alasan:$('#ee-kode').value, tgl_kejadian:$('#ee-kej').value, tmt:$('#ee-tmt').value, menggantikan_id_orang:$('#ee-ganti').value, akhir_masa_tugas:$('#ee-akhir').value, tgl_akhir_baru:$('#ee-baru').value};
+  const {E, W} = validasiKeputusan(db, {bdl:e.bdl, tanggal:kp.tanggal}, [row], {skipHeader:true, excludeEv:e.id});
+  if (E.length) { $('#vf-err').innerHTML = `<div class="note bad">${E.map(esc).join('<br>')}</div>`; return; }
+  Object.assign(e, {jenis:row.jenis, peran:row.peran, kode_alasan:row.kode_alasan, tgl_kejadian:row.tgl_kejadian, tmt:row.tmt, menggantikan_id_orang:row.menggantikan_id_orang || null, akhir_masa_tugas:row.akhir_masa_tugas || null, tgl_akhir_baru:row.tgl_akhir_baru || null});
+  save(); closeModal(); toast('Event diubah — timeline & crosscheck dihitung ulang' + (W.length ? ' (ada ' + W.length + ' peringatan)' : ''), 'ok'); refresh();
+};
+A_.evDel = el => { if (!confirm('Hapus event ini?')) return; db.event = db.event.filter(x => x.id !== el.dataset.id); save(); closeModal(); toast('Event dihapus', 'ok'); refresh(); };
+/* kalkulator */
+A_.calcTest = () => { Object.assign(ui.calc, {bdl:'BDL-01', mode:'baru', kandidat:'TL-011', peran:'Ketua', jumlah:'5', npl:'85', hari:'', rangkap:false, honorLama:'', totalOverride:'3.5', bidangUtama:'auto'}); refresh(); toast('Contoh uji PADK dimuat: Ketua → Rp24.810.954; Anggota → Rp22.555.413', 'ok'); };
+A_.calcDeath = () => { Object.assign(ui.calc, {bdl:'BDL-01', mode:'pengganti', replaced:'TL-002', kandidat:'TL-011', peran:'', jumlah:'', npl:'', hari:'', rangkap:null, honorLama:'', totalOverride:'', bidangUtama:'auto'}); refresh(); };
+
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-act]'); if (t) { const fn = A_[t.dataset.act]; if (fn) { e.preventDefault(); fn(t, e); } return; }
+  if (e.target.id === 'modal') closeModal();
+});
+function onBind(e) {
+  const el = e.target, path = el.dataset && el.dataset.bind; if (!path) return;
+  const passive = el.tagName === 'SELECT' || el.type === 'checkbox' || el.type === 'file' || el.type === 'date';
+  if (passive ? e.type !== 'change' : e.type !== 'input') return;
+  const val = el.type === 'checkbox' ? el.checked : el.type === 'file' ? (el.files[0] ? el.files[0].name : '') : el.value;
+  const [root, ...rest] = path.split('.'); const R = {tl:ui.tl, cv:ui.cv, ver:ui.ver, cc:ui.cc, calc:ui.calc, kf:ui.kf, meta:db.meta}[root];
+  let o = R; for (let i = 0; i < rest.length - 1; i++) o = o[rest[i]]; o[rest[rest.length - 1]] = val;
+  if (root === 'meta') { save(); refresh(); }
+  else if (root === 'tl') { const t = $('#tl-table'); if (t) t.innerHTML = tlTableHTML(); }
+  else if (root === 'ver' || root === 'cc') refresh();
+  else if (root === 'cv') { if (['cv.orang', 'cv.baru', 'cv.f.tipe', 'cv.file'].includes(path)) refresh(); }
+  else if (root === 'kf') { if (path === 'kf.hdr.bdl' || path.endsWith('.jenis') || path === 'kf.hdr.tanggal') refresh(); else renderKValid(); }
+  else if (root === 'calc') {
+    if (path === 'calc.bdl') { const A = deriveAssignments(db); const ev = activeEvents(db).filter(x => x.bdl === val && x.jenis === 'Berhenti').sort((a, b) => a.tmt < b.tmt ? 1 : -1)[0]; const first = A.find(a => a.bdl === val);
+      ui.calc.replaced = ev ? ev.id_orang : (first ? first.id_orang : ''); ui.calc.jumlah = ''; ui.calc.npl = ''; ui.calc.rangkap = null; refresh(); }
+    else if (['calc.mode', 'calc.replaced', 'calc.kandidat'].includes(path)) { ui.calc.rangkap = null; ui.calc.honorLama = ''; refresh(); }
+    else { if (path === 'calc.rangkap') ui.calc.rangkap = val; const out = $('#calc-out'); if (out) out.innerHTML = calcOut(); if (path === 'calc.rangkap' || path === 'calc.peran' || path === 'calc.bidangUtama') refresh(); }
+  }
+}
+document.addEventListener('input', onBind); document.addEventListener('change', onBind);
+document.addEventListener('mouseover', e => { const t = e.target.closest('[data-tip]'); const tip = $('#tip'); if (!t) { tip.classList.add('hidden'); return; } tip.innerHTML = t.dataset.tip; tip.classList.remove('hidden'); });
+document.addEventListener('mousemove', e => { const tip = $('#tip'); if (tip.classList.contains('hidden')) return; const w = tip.offsetWidth; tip.style.left = Math.min(e.clientX + 14, window.innerWidth - w - 10) + 'px'; tip.style.top = (e.clientY + 16) + 'px'; });
+window.addEventListener('hashchange', () => { closeModal(); render(); });
+window.addEventListener('DOMContentLoaded', () => { $('#demoDate').textContent = D.fmt(TODAY); render(); });
+window.__TL = {get db() { return db; }, hitungHonor, crosscheck, deriveAssignments, render};
+</script>
+</body>
+</html>
